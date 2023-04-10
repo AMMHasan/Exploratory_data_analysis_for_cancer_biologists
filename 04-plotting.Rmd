@@ -1,4 +1,4 @@
-# Plotting using `ggplot2` {-}
+# Plotting using `ggplot2`
 
 ## Mini intro to `ggplot2`
 

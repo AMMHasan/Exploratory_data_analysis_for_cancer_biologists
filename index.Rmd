@@ -1,14 +1,27 @@
 --- 
 title: "Exploratory data analysis for cancer biologists"
 author: "A M Mahedi Hasan"
-date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
-output: bookdown::gitbook
+# date: "`r Sys.Date()`"    
+date: "April 25, 2023"
+site: "bookdown::bookdown_site"
+output:
+  bookdown::gitbook:
+    lib_dir: assets
+    split_by: chapter
+    config:
+      toolbar:
+        position: static
+  html_document:
+    number_sections: true
+  
+params:
+  start_date: '2023-03-06'
+  end_date: '2023-04-25'
 documentclass: book
 biblio-style: apalike
 link-citations: yes
 github-repo: AMMHasan/Exploratory_data_analysis_for_cancer_biologists
-description: "This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using *R* (statistical-) programming language in their MSc projects."
+description: "This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using *R* (statistical) programming language in their MSc projects."
 ---
 
 

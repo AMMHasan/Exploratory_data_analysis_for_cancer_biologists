@@ -1,4 +1,4 @@
-# Data manipulation using `dplyr` {-}
+# Data manipulation using `dplyr`
 
 Trust me, this is the part of my research where I spend a significant portion of my time. Real-life data are not polished and nicely annotated. Moreover, when you want to integrate data from different sources, the fun begins (I am showing the quotation finger, of course)! Moreover, you need to format the output from one process and make it worthy for the next one. So, there's no escape from data formatting / manipulating data in real-life.
 
@@ -22,13 +22,20 @@ library(dplyr)
 
 However, if you want to install the development version, which I won't recommend, you can follow the codes below -
 ```{r install_dplyr_option3}
-if (packageVersion("devtools") < 1.6) {
-  install.packages("devtools")
-}
-devtools::install_github("hadley/lazyeval")
-devtools::install_github("hadley/dplyr")
+# if (packageVersion("devtools") < 1.6) {
+#   install.packages("devtools")
+# }
+# devtools::install_github("hadley/lazyeval")
+# devtools::install_github("hadley/dplyr")
 
 ```
+
+## Load `dplyr`
+
+```{r load_dplyr}
+library(dplyr)
+```
+
 
 ## Pipe operator %>% 
 
@@ -59,11 +66,15 @@ There are many verbs embedded in the dplyr package, here I will be discussing a 
 `select()` picks variables based on their names or types. For example -
 
 ```{r select1}
+library(kableExtra)
 # using specific variable names -
-iris %>% select(Sepal.Length, Sepal.Width) %>% head()
+iris %>% select(Sepal.Length, Sepal.Width) %>% kable(align = "lccrr", caption = "iris data: Sepal length and width") %>% kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>% scroll_box(width = "100%", height = "200px")
 
 # using type -
-iris %>% select(is.numeric) %>% head()
+iris %>% select(is.numeric) %>% 
+  kable(align = "lccrr",caption = "iris data: neumeric columns only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 
@@ -72,30 +83,52 @@ With the verb `select()`, comes some *selection helpers* -
 If you want to select all the variables, you can use `everything()`
 
 ```{r select2}
-iris %>% select(everything())
+iris %>% select(everything()) %>% 
+  kable(align = "lccrr",caption = "iris data: everything") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 You can choose the last column using `last_col()` or only columns that are grouped using `group_cols()` (You will understand better when I  discuss the `group_by()` verb later).
 
 ```{r select3}
-iris %>% select(last_col()) %>% head()
-iris %>% group_by(Sepal.Length,Sepal.Width) %>% select(group_cols()) %>% head()
+iris %>% select(last_col()) %>% 
+  kable(align = "lccrr",caption = "iris data: last_col()") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+iris %>% group_by(Sepal.Length,Sepal.Width) %>% select(group_cols()) %>% 
+  kable(align = "lccrr",caption = "iris data: select grouped columns") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 If there's a common prefix or suffix to some column names, you can utilise that by using selectio helpers `starts_with()` or `ends_with()`, respectively -
 
 ```{r select4}
-iris %>% select(starts_with("Sepal")) %>% head()
-iris %>% select(ends_with("Length")) %>% head()
+iris %>% select(starts_with("Sepal")) %>% 
+  kable(align = "lccrr",caption = "iris data: columns starts with Sepal") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+iris %>% select(ends_with("Length")) %>% 
+  kable(align = "lccrr",caption = "iris data: columns ends with Length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 Even, an internal pattern can be used to select a column by using `contains()` -
 ```{r select5}
-iris %>% select(contains("dth")) %>% head()
+iris %>% select(contains("dth")) %>% 
+  kable(align = "lccrr",caption = "iris data: column names containing 'dth'") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 Even, you can use regular expression to select a column by using `matches()` -
 ```{r select6}
 # column name containing either W or d or both
-iris %>% select(matches("[Wd]")) %>% head()
+iris %>% select(matches("[Wd]")) %>% 
+  kable(align = "lccrr",caption = "iris data: column name containing W or d") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 
@@ -111,17 +144,29 @@ The `filter()` verb is used to subset a data frame based on one or more conditio
 Let's see some examples -
 ```{r filter}
 
-# choose the rows whose Petal.Width is greater than 0.2
-iris %>% filter(Petal.Width > 2) %>% head()
+# choose the rows whose Petal.Width is greater than 2
+iris %>% filter(Petal.Width > 2) %>% 
+  kable(align = "lccrr",caption = "iris data: Petal width creater than 2") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 
 # choose the rows for setosa Species
 
-iris %>% filter(Species == "setosa") %>% head()
+iris %>% filter(Species == "setosa") %>% 
+  kable(align = "lccrr",caption = "iris data: setosa only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 #or 
-iris %>% filter(Species %in% "setosa") %>% head()
+iris %>% filter(Species %in% "setosa") %>% 
+  kable(align = "lccrr",caption = "iris data: setosa only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 
 # or even the opposite is True
-iris %>% filter(Species != "setosa") %>% head()
+iris %>% filter(Species != "setosa") %>% 
+  kable(align = "lccrr",caption = "iris data: without setosa") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 
@@ -130,10 +175,16 @@ iris %>% filter(Species != "setosa") %>% head()
 The verb `mutate()` creates new columns and often the element of the new col can be functions of the existing variables (i.e. columns).
 
 ```{r mutate}
-iris %>% mutate(Length_difference = Sepal.Length - Petal.Length) # not that the new column here make much sense
+iris %>% mutate(Length_difference = Sepal.Length - Petal.Length) %>% # not that the new column here make much sense
+  kable(align = "lccrr",caption = "iris data: new column added") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 
 # To keep only the newly created column, use transmute()
-iris %>% transmute(Length_difference = Sepal.Length - Petal.Length)
+iris %>% transmute(Length_difference = Sepal.Length - Petal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: new column only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 Interestingly, setting the value of an existing column to `NULL` inside mutate deletes the column.
@@ -144,7 +195,10 @@ Interestingly, setting the value of an existing column to `NULL` inside mutate d
 
 As the name suggests, `rename()` verb changes the name of an existing column. The syntax is `<new_name> = <old_name>`. Example -
 ```{r rename1}
-iris %>% rename(Species.name=Species) %>% head()
+iris %>% rename(Species.name=Species) %>% 
+  kable(align = "lccrr",caption = "iris data: Species column renamed") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 Interestingly, you can change the name of a column while selecting using `select()` verb -
 
@@ -153,7 +207,10 @@ iris %>% select(Sepal.Length,
                 Sepal.Width, 
                 Petal.Length, 
                 Petal.Width, 
-                Species.name=Species) %>% head()
+                Species.name=Species) %>% 
+  kable(align = "lccrr",caption = "iris data: Species column renamed using select()") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 
@@ -162,8 +219,16 @@ iris %>% select(Sepal.Length,
 The verb `arrange()` arranges or orders the rows of a data frame by the values of selected column(s), like -
 
 ```{r arrange}
-iris %>% arrange(Sepal.Length) %>% head()
-iris %>% arrange(Sepal.Length,Sepal.Width) %>% head() # After arranging the data frame by Sepal.Length, for a distinct Sepal.Length, the Sepal.Width is arrange and so as the rest of the data frame with it.
+iris %>% arrange(Sepal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: arranged by Sepal length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+# After arranging the data frame by Sepal.Length, for a distinct Sepal.Length, the Sepal.Width is arrange and so as the rest of the data frame with it.
+iris %>% arrange(Sepal.Length,Sepal.Width) %>% 
+  kable(align = "lccrr",caption = "iris data: arranged by Sepal length and width") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 
@@ -172,9 +237,24 @@ iris %>% arrange(Sepal.Length,Sepal.Width) %>% head() # After arranging the data
 The `distinct()` verb retains only the unique/distinct rows from a data frame given the column(s) selected and only output the select column(s), if not the `.keep_all` parameter is change from it's default value `FALSE` to `TRUE`. Let's see some examples -
 
 ```{r distinct}
-iris %>% distinct(Sepal.Length) %>% head()
-iris %>% distinct(Sepal.Length,Sepal.Width) %>% head() # here only the unique combinations of Sepal.Length and Sepal.Width are kept.
-iris %>% distinct(Sepal.Length,Sepal.Width, .keep_all = T) %>% head() # rest of the columns are also returned.
+iris %>% distinct(Sepal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: distinct Sepal length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+# here only the unique combinations of Sepal.Length and Sepal.Width are kept.
+iris %>% distinct(Sepal.Length,Sepal.Width) %>% 
+  kable(align = "lccrr",caption = "iris data: distinct Sepal length and width only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+
+# rest of the columns are also returned.
+iris %>% distinct(Sepal.Length,Sepal.Width, .keep_all = T) %>% 
+  kable(align = "lccrr",caption = "iris data: distinct Sepal length and width only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
 ```
 
 
@@ -193,9 +273,19 @@ the `slice()` verb lets you index rows by their (integer) locations. It has some
 `slice_min()` and `slice_max()` helper selects rows with the lowest and the highest value of the selected variable. Few examples -
 
 ```{r slice}
-iris %>% slice(1)
-iris %>% slice(10:n()) # you can do that too. 
-iris %>% slice_min( Sepal.Length)
+iris %>% slice(1) %>% 
+  kable(align = "lccrr",caption = "iris data: a random row") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+iris %>% slice(10:n()) %>% 
+  kable(align = "lccrr",caption = "iris data: from 10th row to the end") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+iris %>% slice_min( Sepal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: row with the lowest sepal length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 
@@ -213,10 +303,26 @@ x <- iris %>% select(Sepal.Length,Sepal.Width,Species) %>% filter(Species %in% c
 y <- iris %>% select(Petal.Length,Petal.Width,Species) %>% filter(Species %in% c("versicolor", "virginica")) %>% slice_sample(n=10)
 
 
-x %>% inner_join(y, by = "Species")
-x %>% left_join(y, by = "Species")
-x %>% right_join(y, by = "Species")
-x %>% full_join(y, by = "Species")
+x %>% inner_join(y, by = "Species") %>% 
+  kable(align = "lccrr",caption = "iris data: inner_join") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+x %>% left_join(y, by = "Species") %>% 
+  kable(align = "lccrr",caption = "iris data: left_join") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+x %>% right_join(y, by = "Species") %>% 
+  kable(align = "lccrr",caption = "iris data: right_join") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+x %>% full_join(y, by = "Species") %>% 
+  kable(align = "lccrr",caption = "iris data: full_join") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
 ```
 
 
@@ -226,13 +332,19 @@ x %>% full_join(y, by = "Species")
 I will be describing `group_by()` and `summarise()` verbs together to show the effect of the former. `group_by()` is the most importsnt grouping verb in dplyr. It takes one or more variables of the data frame to group by -
 
 ```{r group_by1}
-iris %>% group_by(Species) %>% head()
+iris %>% group_by(Species) %>% 
+  kable(align = "lccrr",caption = "iris data: group_by Species") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 Rather than some metadata, you don't see any change in the structure of the iris data frame yet. Let's select Sepal.Length and see the effect -
 
 ```{r group_by2}
-iris %>% group_by(Species) %>% select(Sepal.Length) %>% head()
+iris %>% group_by(Species) %>% select(Sepal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: group by Species and selected by Sepal length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 ```
 
 Though I selected only the `Sepal.Length`, the Species column also appears. Yes, that's because of the application `group_by()` verb beforehand. But the most dramatic effect can be seen in conjunction with the `summarise()` verb. 
@@ -240,13 +352,30 @@ Though I selected only the `Sepal.Length`, the Species column also appears. Yes,
 `summarise()` generates a new data frame and returns one row (with the result of course) for each combination of grouping variables. In the case of no grouping variables, the output has a single row summarising all observations in the input. Now, let's see the effect of `group_by()` in conjunction with `summarise()` verb -
 
 ```{r summarise}
-iris %>% group_by(Species) %>% select(Sepal.Length) %>% summarise(count=n())
+iris %>% 
+  group_by(Species) %>% 
+  select(Sepal.Length) %>% 
+  summarise(count=n()) %>% 
+  kable(align = "lccrr",caption = "iris data: summarised count by Species") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 
-iris %>% group_by(Species) %>% select(Sepal.Length) %>% summarise(mean_Sepal_length=mean(Sepal.Length))
+iris %>% 
+  group_by(Species) %>% 
+  select(Sepal.Length) %>% 
+  summarise(mean_Sepal_length=mean(Sepal.Length)) %>% 
+  kable(align = "lccrr",caption = "iris data: Summarised mean Sepal length by Species") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 
 # as being told, without any grouping -
 
-iris %>% select(Sepal.Length) %>% summarise(mean_Sepal_length=mean(Sepal.Length))
+iris %>% 
+  select(Sepal.Length) %>% 
+  summarise(mean_Sepal_length=mean(Sepal.Length)) %>% 
+  kable(align = "lccrr",caption = "iris data: summarised mean Sepal length without grouping") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
 
 ```
 

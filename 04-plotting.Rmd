@@ -40,7 +40,7 @@ str(mtcars)
 
 Now, I will draw scatter plot using the base *R* `plot()` function, and then using `ggplot2`, I will show you the difference -
 
-```{r base_R_vs_ggplot2_2}
+```{r base_R_vs_ggplot2_2, fig.width = 4, fig.height=4}
 plot(x=mtcars$mpg, y=mtcars$wt)
 
 ggplot(data = mtcars, mapping = aes(x=mpg,y=wt)) + geom_point()
@@ -120,12 +120,12 @@ Now time to check what I have just mentioned, but before that (as usual) let's c
 ##### scatter plot with geom_point()
 
 I will now draw a scatter plot using *highway miles per gallon* as a function of *engine displacement (in litres)* - 
-```{r geom_point1}
+```{r geom_point1, fig.width = 4, fig.height=4}
 ggplot(data=mpg, aes(x=displ, y=hwy)) + geom_point()
 ```
 
 Interestingly, you can save the whole or part of the code snippet in a variable -
-```{r geom_point2}
+```{r geom_point2, fig.width = 4, fig.height=4}
 # can be saved in a vector first, then print it. Like -
 p1 <- ggplot(data=mpg, aes(x=displ, y=hwy)) + geom_point()
 p1
@@ -141,7 +141,7 @@ p5
 
 Now let's play with colour and size -
 
-```{r geom_point3}
+```{r geom_point3, fig.width = 4, fig.height=4}
 p + geom_point(colour="red", alpha = 0.2, size = 3) # outside aes(), affects the same for all
 p + geom_point(aes(colour=year, shape=factor(cyl)), size = 3) # inside aes(), affects accordingly
 ```
@@ -149,7 +149,7 @@ p + geom_point(aes(colour=year, shape=factor(cyl)), size = 3) # inside aes(), af
 
 You can play with title and axis labels -
 
-```{r geom_point4}
+```{r geom_point4, fig.width = 4, fig.height=4}
 
 p + 
   geom_point(aes(colour=year), size = 3, alpha = 0.2) +
@@ -166,7 +166,7 @@ p +
 
 If your datapoints are a bit tightly spaced, you can jitter a bit -
 
-```{r geom_poin5}
+```{r geom_poin5, fig.width = 4, fig.height=4}
 
 p + 
   geom_point(aes(colour=class), size = 3, position = "jitter") # introducing jitter here. For controlling the amount of movements, you can use geom_jitter()
@@ -174,7 +174,7 @@ p +
 
 Let's play with some scaling -
 
-```{r geom_point6}
+```{r geom_point6, fig.width = 4, fig.height=4}
 p + 
   geom_point(aes(colour=class), size = 3, alpha = 0.2) +
   scale_x_continuous(name = "x-axis label changed", breaks = seq(0,10,by=5),limits = c(0,10)) +
@@ -188,7 +188,7 @@ p +
 
 You can play with the positioning of the legend, too -
 
-```{r geom_point7}
+```{r geom_point7, fig.width = 4, fig.height=4}
 
 p + 
   geom_point(aes(colour=class), size = 3, alpha = 0.2) +
@@ -207,7 +207,7 @@ I will discuss it with box polt later in this chapter.
 
 If you have too many data points, the idea of faceting is to sub-setting the plot by an appropriate variable -
 
-```{r faceting}
+```{r faceting, fig.width = 4, fig.height=4}
 p + 
   geom_point(aes(colour=class), size = 3, alpha = 0.2) +
   facet_wrap(~ class, ncol = 2)
@@ -222,7 +222,7 @@ p +
 
 There are different themes to play with -
 
-```{r theme}
+```{r theme, fig.width = 4, fig.height=4}
 p + 
   geom_point(aes(colour=class), size = 3, alpha = 0.2) +
   theme_void()
@@ -236,34 +236,34 @@ By default, the bar plot comes as stacked. If you fill it by a variable that is 
 
 To begin with -
 
-```{r bar_plot1}
+```{r bar_plot1, fig.width = 4, fig.height=4}
 ggplot(data=diamonds) +
   geom_bar(mapping = aes(x=cut))
 
 ```
 
-```{r bar_plot2}
+```{r bar_plot2, fig.width = 4, fig.height=4}
 ggplot(data=diamonds) +
   geom_bar(mapping = aes(x=cut, fill=cut))
 ```
 
 But - 
 
-```{r bar_plot3}
+```{r bar_plot3, fig.width = 4, fig.height=4}
 ggplot(data=diamonds) +
   geom_bar(mapping = aes(x=cut, fill=clarity))
 ```
 
 The position is adjusted by the position argument which takes in three options - "identity", "fill", and "dodge"
 
-```{r bar_plot4}
+```{r bar_plot4, fig.width = 4, fig.height=4}
 ggplot(data=diamonds) +
   geom_bar(mapping = aes(x=cut, fill=clarity), position = "identity")
 ```
 
 Here, each object falls exactly where it should be in the context of the plot and seems to be overlapped. It can be a little better if you use fill = NA or use alpha value 
 
-```{r bar_plot5}
+```{r bar_plot5, fig.width = 4, fig.height=4}
 ggplot(data=diamonds) +
   geom_bar(mapping = aes(x=cut, fill=clarity), position = "identity", alpha = 0.2)
 
@@ -273,14 +273,14 @@ ggplot(data=diamonds) +
 
 Position fill catches up all the space vertically for each bar and displays as fraction of the values
 
-```{r bar_plot6}
+```{r bar_plot6, fig.width = 4, fig.height=4}
 ggplot(data=diamonds) +
   geom_bar(mapping = aes(x=cut, fill=clarity), position = "fill")
 ```
 
 But what we usually mean by the bar plots is the next - 
 
-```{r bar_plot7}
+```{r bar_plot7, fig.width = 4, fig.height=4}
 ggplot(data=diamonds) +
   geom_bar(mapping = aes(x=cut, fill=clarity), position = "dodge")
 
@@ -291,7 +291,7 @@ ggplot(data=diamonds) +
 
 Box plot is very convenient to see the distribution of your data and compare side by side the distributions of different variables in your data -
 
-```{r boxplot}
+```{r boxplot, fig.width = 4, fig.height=4}
 ggplot(mpg, aes(class, hwy)) +
   geom_boxplot() +
   coord_flip()
@@ -321,7 +321,7 @@ The most frequently used plot for data analysis is undoubtedly the scatterplot. 
 
 It can be drawn using ```geom_point()```. Additionally, geom_smooth which draws a smoothing line (based on loess) by default, can be tweaked to draw the line of best fit by setting method='lm'.
 
-```{r practice}
+```{r practice, fig.width = 4, fig.height=4}
 
 # install.packages("ggplot2")
 # load package and data

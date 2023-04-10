@@ -1,27 +1,32 @@
 # Data manipulation using `dplyr` {-}
 
-Trust me, this is the part of my research where I spend a significant portion of my time. Real-life data are not polished and nicely annotated. Moreover, when you want to integrate data from different sources, the fun begins (I am showing the quotation finger. of course)! Even you need to format the output from one process and make it worthy for the next one. So, there's no escape from data formatting / manipulating in real-life.
+Trust me, this is the part of my research where I spend a significant portion of my time. Real-life data are not polished and nicely annotated. Moreover, when you want to integrate data from different sources, the fun begins (I am showing the quotation finger, of course)! Moreover, you need to format the output from one process and make it worthy for the next one. So, there's no escape from data formatting / manipulating data in real-life.
 
-Here, we will be using the `dplyr` package which is one of the most powerful and popular packages in **R**. The `d` here represents data and `plyr` is supposed to be the tool plier (ref). Therefore, `dplyr` packages refers to a tool to manipulate data frame. `dplyr` provides a grammar of data manipulation and the functions it provides are regarded as the verbs in the code and are very efficient in solving most common data manipulation problems. It is sometimes arguably more efficient than the base **R** operations.
+Here, we will be using the `dplyr` package which is one of the most powerful and popular packages in *R*. The `d` here represents data and `plyr` is supposed to be the tool plier. Therefore, `dplyr` packages refers to a tool to manipulate data frame. `dplyr` provides a grammar of data manipulation and the functions it provides are regarded as the verbs in the code and are very efficient ones in solving most common data manipulation problems. It is sometimes arguably more efficient than the base *R* operations.
 
 ## Install
 
 There are mainly two ways to install `dplyr` package in **R**. You can install the `tidyverse` package and `dplyr`, being a part of it, will automatically be installed in your **R** environment. 
 
-```{r}
+```{r install_dplyr_option1}
 # install.packages("tidyverse")
 library(tidyverse)
 ```
 
 Or, you can install just the `dplyr` package by -
 
-```{r}
+```{r install_dplyr_option2}
 # install.packages("dplyr")
 library(dplyr)
 ```
 
 However, if you want to install the development version, which I won't recommend, you can follow the codes below -
-```{r}
+```{r install_dplyr_option3}
+if (packageVersion("devtools") < 1.6) {
+  install.packages("devtools")
+}
+devtools::install_github("hadley/lazyeval")
+devtools::install_github("hadley/dplyr")
 
 ```
 
@@ -31,13 +36,13 @@ It will be a crime not to introduce the pipe operator `%>%` to you before starti
 
 The pipe operator `%>%` connects two operations on the same data (be it a vector or a data frame). It passes the output from the left-hand side operation of the pipe operator as the first argument to the right-hand side operation of the operator. If you want an informal definition -
 `x %>% f(y)` is converted into `f(x,y)` by using the pipe operator. Let's look at another example. If we have a vector x that holds value from 1 to 100 and we want to calculate the mean of x and make it round to an integer, we write in base **R** -
-```{r}
+```{r pipe_operator1}
 x <- 1:100
 round(mean(x))
 ```
 However, using the pipe operator, we can first define the x and then calculate the mean and, at the end, round it to an integer, like -
 
-```{r}
+```{r pipe_operator2}
 x <- 1:100
 x %>% mean %>% round
 ```
@@ -53,7 +58,7 @@ There are many verbs embedded in the dplyr package, here I will be discussing a 
 
 `select()` picks variables based on their names or types. For example -
 
-```{r}
+```{r select1}
 # using specific variable names -
 iris %>% select(Sepal.Length, Sepal.Width) %>% head()
 
@@ -66,29 +71,29 @@ With the verb `select()`, comes some *selection helpers* -
 
 If you want to select all the variables, you can use `everything()`
 
-```{r}
+```{r select2}
 iris %>% select(everything())
 ```
 You can choose the last column using `last_col()` or only columns that are grouped using `group_cols()` (You will understand better when I  discuss the `group_by()` verb later).
 
-```{r}
+```{r select3}
 iris %>% select(last_col()) %>% head()
 iris %>% group_by(Sepal.Length,Sepal.Width) %>% select(group_cols()) %>% head()
 ```
 
 If there's a common prefix or suffix to some column names, you can utilise that by using selectio helpers `starts_with()` or `ends_with()`, respectively -
 
-```{r}
+```{r select4}
 iris %>% select(starts_with("Sepal")) %>% head()
 iris %>% select(ends_with("Length")) %>% head()
 ```
 Even, an internal pattern can be used to select a column by using `contains()` -
-```{r}
+```{r select5}
 iris %>% select(contains("dth")) %>% head()
 ```
 
 Even, you can use regular expression to select a column by using `matches()` -
-```{r}
+```{r select6}
 # column name containing either W or d or both
 iris %>% select(matches("[Wd]")) %>% head()
 ```
@@ -104,7 +109,7 @@ The `filter()` verb is used to subset a data frame based on one or more conditio
 `%in%`
 
 Let's see some examples -
-```{r}
+```{r filter}
 
 # choose the rows whose Petal.Width is greater than 0.2
 iris %>% filter(Petal.Width > 2) %>% head()
@@ -120,14 +125,15 @@ iris %>% filter(Species != "setosa") %>% head()
 ```
 
 
-
-
 ### mutate()
 
 The verb `mutate()` creates new columns and often the element of the new col can be functions of the existing variables (i.e. columns).
 
-```{r}
+```{r mutate}
 iris %>% mutate(Length_difference = Sepal.Length - Petal.Length) # not that the new column here make much sense
+
+# To keep only the newly created column, use transmute()
+iris %>% transmute(Length_difference = Sepal.Length - Petal.Length)
 ```
 
 Interestingly, setting the value of an existing column to `NULL` inside mutate deletes the column.
@@ -137,12 +143,12 @@ Interestingly, setting the value of an existing column to `NULL` inside mutate d
 ### rename()
 
 As the name suggests, `rename()` verb changes the name of an existing column. The syntax is `<new_name> = <old_name>`. Example -
-```{r}
+```{r rename1}
 iris %>% rename(Species.name=Species) %>% head()
 ```
 Interestingly, you can change the name of a column while selecting using `select()` verb -
 
-```{r}
+```{r rename2}
 iris %>% select(Sepal.Length, 
                 Sepal.Width, 
                 Petal.Length, 
@@ -155,7 +161,7 @@ iris %>% select(Sepal.Length,
 
 The verb `arrange()` arranges or orders the rows of a data frame by the values of selected column(s), like -
 
-```{r}
+```{r arrange}
 iris %>% arrange(Sepal.Length) %>% head()
 iris %>% arrange(Sepal.Length,Sepal.Width) %>% head() # After arranging the data frame by Sepal.Length, for a distinct Sepal.Length, the Sepal.Width is arrange and so as the rest of the data frame with it.
 ```
@@ -165,7 +171,7 @@ iris %>% arrange(Sepal.Length,Sepal.Width) %>% head() # After arranging the data
 
 The `distinct()` verb retains only the unique/distinct rows from a data frame given the column(s) selected and only output the select column(s), if not the `.keep_all` parameter is change from it's default value `FALSE` to `TRUE`. Let's see some examples -
 
-```{r}
+```{r distinct}
 iris %>% distinct(Sepal.Length) %>% head()
 iris %>% distinct(Sepal.Length,Sepal.Width) %>% head() # here only the unique combinations of Sepal.Length and Sepal.Width are kept.
 iris %>% distinct(Sepal.Length,Sepal.Width, .keep_all = T) %>% head() # rest of the columns are also returned.
@@ -186,7 +192,7 @@ the `slice()` verb lets you index rows by their (integer) locations. It has some
 
 `slice_min()` and `slice_max()` helper selects rows with the lowest and the highest value of the selected variable. Few examples -
 
-```{r}
+```{r slice}
 iris %>% slice(1)
 iris %>% slice(10:n()) # you can do that too. 
 iris %>% slice_min( Sepal.Length)
@@ -196,12 +202,12 @@ iris %>% slice_min( Sepal.Length)
 
 ### join
 
-A disclaimer, there's no verb called `join()` in dplyr (at least, to date). However, there are two types of join verbs - `inner_join()` and `outer_join` (which is also not a verb, but a class of three verbs: `left_join()`, `right_join()` and `full_join()`). join verbs joins columns from two data frames based on a common key column.
+A disclaimer, there's no verb (exactly) called `join()` in dplyr (at least, to date). However, there are two types of join verbs - `inner_join()` and `outer_join` (which is also not a verb, but a class of three verbs: `left_join()`, `right_join()` and `full_join()`). join verbs joins columns from two data frames based on a common key column.
 
 `inner_join()` verb joins two data frame and retains the rows where the keys match. This means that there is a potential loss of observations that we may not appreciate in the real-life analysis.
 
 On the other hand, if we have two data frames `x` and `y`, the `left_join()` verb matches the keys from `x` and `y`, while keeps all the rows from `x` and joins the matched rows from `y`. The empty cells are filled with NA values. For `right_join()` verb, is the opposite scenario. On the other hand, the `full_join()` verb retains all the rows from both data frames and empty cells are filled with NA values. Let's clear the concept with some examples -
-```{r}
+```{r join}
 x <- iris %>% select(Sepal.Length,Sepal.Width,Species) %>% filter(Species %in% c("setosa", "versicolor")) %>% slice_sample(n=10)
 
 y <- iris %>% select(Petal.Length,Petal.Width,Species) %>% filter(Species %in% c("versicolor", "virginica")) %>% slice_sample(n=10)
@@ -219,13 +225,13 @@ x %>% full_join(y, by = "Species")
 
 I will be describing `group_by()` and `summarise()` verbs together to show the effect of the former. `group_by()` is the most importsnt grouping verb in dplyr. It takes one or more variables of the data frame to group by -
 
-```{r}
+```{r group_by1}
 iris %>% group_by(Species) %>% head()
 ```
 
 Rather than some metadata, you don't see any change in the structure of the iris data frame yet. Let's select Sepal.Length and see the effect -
 
-```{r}
+```{r group_by2}
 iris %>% group_by(Species) %>% select(Sepal.Length) %>% head()
 ```
 
@@ -233,7 +239,7 @@ Though I selected only the `Sepal.Length`, the Species column also appears. Yes,
 
 `summarise()` generates a new data frame and returns one row (with the result of course) for each combination of grouping variables. In the case of no grouping variables, the output has a single row summarising all observations in the input. Now, let's see the effect of `group_by()` in conjunction with `summarise()` verb -
 
-```{r}
+```{r summarise}
 iris %>% group_by(Species) %>% select(Sepal.Length) %>% summarise(count=n())
 
 iris %>% group_by(Species) %>% select(Sepal.Length) %>% summarise(mean_Sepal_length=mean(Sepal.Length))

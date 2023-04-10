@@ -10,7 +10,7 @@ FYI, the gene expression data generated using microarrays, genome-wide copy numb
 
 Let's download the data and save it in the `workshop2` folder. We will be plotting different aspects of the patient related information and biological aspect for the sake of *exploratory data analysis (EDA)*. And for that, we will have to merge and format the data provided. Now, let's load the data one by one using the function `read.delim` with appropriate parameters -
 
-```{r}
+```{r laod_datasets}
 
 library(dplyr)
 library(ggplot2)
@@ -55,7 +55,7 @@ expression_data[1:10, 1:10]
 
 To begin with, let's explore the `mutation data` a bit by plotting the frequency of different types of mutations - 
 
-```{r}
+```{r mutation_freq}
 head(mutation_data)
 ggplot(data=mutation_data,mapping = aes(Variant_Classification, fill=Variant_Classification)) + 
   geom_bar() + 
@@ -65,7 +65,7 @@ ggplot(data=mutation_data,mapping = aes(Variant_Classification, fill=Variant_Cla
 
 Now we will build a word cloud of genes that had been affected by mutations -
 
-```{r}
+```{r wordcloud}
 # install.packages("wordcloud")
 library(wordcloud)
 # We need the gene name and how many times they are affected by any non-synonymous mutation -
@@ -105,7 +105,7 @@ Now, we will subset the loaded data so that we can merge (or join) them together
 And, we will combine all the data based on the `patient_ID` to create a master dataset that we will use in the rest of the worshop.
 
 
-```{r}
+```{r combine_data}
 
 # Find out the frequency of mutations per patient
 mutation_per_patient <- mutation_data %>%
@@ -168,8 +168,9 @@ combined_data <- left_join(combined_data,sub_expression_data, by="patient_ID")
 ```
 
 
-Now, we will generate a scatter plot using the expression data of Estrogen receptor `ESR1` against that of transcription factor `GATA3`. Then we will build our understanding of their coexpression by building a linear model. We will then refine that based on the ER_status (positive or negative) - 
-```{r}
+Now, we will generate a scatter plot using the expression data of Estrogen receptor `ESR1` against that of transcription factor `GATA3`. Then we will build our understanding of their co-expression by building a linear model. We will then refine that based on the ER_status (positive or negative) - 
+
+```{r ESR1_vs_GATA3}
 ggplot(data = combined_data) +
   geom_point(mapping = aes(x = GATA3, y = ESR1))
 
@@ -192,7 +193,7 @@ ggplot(data = combined_data %>% na.omit(),  aes(x = GATA3, y = ESR1,colour = ER_
 
 On a different note, `GATA3` expression is ususlly high in Luminal A subtype of breast cancer and also in positive estrogen receptor (ER+) status ([*Voduc D et. al.*](https://pubmed.ncbi.nlm.nih.gov/18268121/)). Let's find out if that's try for this study -
 
-```{r}
+```{r GATA3_in_luminalA_and_ER_positive_tissue}
 
 ggplot(combined_data, aes(PAM50, GATA3)) + 
   geom_boxplot()
@@ -207,7 +208,7 @@ ggplot(combined_data %>% na.omit(), aes(ER_status, GATA3)) +
 
 
 Now, we will look at the distribution of age of the patients at diagnosis as a function of some selected mutated genes. 
-```{r}
+```{r patient_age_distribution}
 
 mut_gene <- mutation_data %>%
   filter(Consequence != "synonymous_variant") %>%
@@ -238,8 +239,8 @@ plot_data %>%
 Can we distinguish any pattern from the plot?
 
 
-Now,  we will try to find xplore patterns of co-mutation and mutual exclusivity in a set of 21 driver genes (so-called Mut-driver genes) - 
-```{r}
+Now,  we will try to explore patterns of co-mutation and mutual exclusivity in a set of 21 driver genes (so-called Mut-driver genes) - 
+```{r coMutation_analysis}
 #install.packages("splitstackshape")
 library(splitstackshape)
 library(reshape2)

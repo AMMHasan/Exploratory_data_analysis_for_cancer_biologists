@@ -1,0 +1,350 @@
+# Plotting using `ggplot2` {-}
+
+## Mini intro to `ggplot2`
+
+To my opinion, the most elegant package for data visualisation in *R* is `ggplot2`. Here, *gg* stands for the *grammar of graphics*. Put aside what you have learnt so far on basic *R* plotting techniques, `ggplot2` defines the art of plotting in a whole new way. The learning curve may be steep, but once you learn it, you will fall in love with it (I promise). You provide the data, tell `ggplot2` which variables to map to the aesthetics, and tell what do you want. `ggplot2` will take care of the rest.
+
+### Installation
+
+The easiest way to get `ggplot2` is to install the whole `tidyverse`:
+```{r}
+#install.packages("tidyverse")
+```
+
+Alternatively, install just `ggplot2`:
+```{r}
+#install.packages("ggplot2")
+```
+Or the the development version from GitHub:
+```{r}
+#install.packages("devtools")
+#devtools::install_github("tidyverse/ggplot2")
+```
+
+
+And then, load it ...
+```{r}
+library(ggplot2)
+```
+
+### Plotting with ggplot2 
+
+In this chapter, I will bwe using the `mtcars` dataset for plotting different graphs. For refreshing your memory, let's have a look at the dataset -
+
+```{r}
+head(mtcars)
+str(mtcars)
+```
+
+Now, I will draw scatter plot using the base *R* `plot()` function, and then using `ggplot2`, I will show you the difference -
+
+```{r}
+plot(x=mtcars$mpg, y=mtcars$wt)
+
+ggplot(data = mtcars, mapping = aes(x=mpg,y=wt)) + geom_point()
+```
+You can see the stark difference between them -
+
+#### General parameters for ggplot() 
+
+For plotting with `ggplot2`, you start with ```ggplot()``` function and you privide the data. You then put the parameters you need to plot, like - the aesthetic mapping using ```mapping = aes()```. Then, you add on layers (like ```geom_point()```), scale (like ```scale_x_continuous()```), faceting specifications (like ```facet_wrap()```), coordinate systems (like ```coord_flip()```)
+
+In short, these are the elements that you might see in a block of graph using `ggplot()` function -
+
+* data
+
+* aesthetic mapping
+
+* geometric objects
+
+* statistical transformations
+
+* scales
+
+* coordinate systems
+
+* position adjustments
+
+* faceting
+
+You can specify different layers of the plot and combine using "+" operator. Now I will dive into different aspects of the `ggplot()` function -
+
+##### Aesthetic mapping using ```aes()```
+
+Here *aesthetic* means something that you can see. It is mainly the mapping between a visual attribute and a variable. These are some important aesthetics -
+
+* position (x,y)
+
+* colour (basically the colour of the outer rim of the object)
+ 
+* fill (the filling-colour/inside-colour of the object)
+
+* shape (mainly of point)
+
+* line type
+
+* size etc
+
+
+You can read all about them on your Rstudio help panel by typing -
+
+```{r}
+help.search("geom_", package = "ggplot2")
+```
+
+##### Geomatric Objects ```geom_``
+
+There are so many `geomes` in `ggplot2`, like -
+
+* `geom_point()`
+
+* `geom_lines()`
+
+* `geom_boxplot()`
+
+Again, you can find the `geoms` by typing in -
+
+```{r}
+help.search("geom_", package = "ggplot2")
+
+```
+
+Now time to check what I have just mentioned, but before that (as usual) let's check the data that we are going to use. I will switch to another dataset, called `mpg`, from **R**.
+
+```{r}
+?mpg
+```
+
+##### scatter plot with geom_point()
+
+I will now draw a scatter plot using *highway miles per gallon* as a function of *engine displacement (in litres)* - 
+```{r}
+ggplot(data=mpg, aes(x=displ, y=hwy)) + geom_point()
+```
+
+Interestingly, you can save the whole or part of the code snippet in a variable -
+```{r}
+# can be saved in a vector first, then print it. Like -
+p1 <- ggplot(data=mpg, aes(x=displ, y=hwy)) + geom_point()
+p1
+
+# or 
+p <- ggplot(data=mpg, aes(x=displ, y=hwy)) # saved as a base plot variable. I will call p and add different layer on it.
+p2 <- p + geom_point() 
+p3 <- p + geom_line()
+p4 <- p + geom_smooth()
+p5 <- p2 + geom_smooth(se = F, linetype="dashed")
+p5
+```
+
+Now let's play with colour and size -
+
+```{r}
+p + geom_point(colour="red", alpha = 0.2, size = 3) # outside aes(), affects the same for all
+p + geom_point(aes(colour=year, shape=factor(cyl)), size = 3) # inside aes(), affects accordingly
+```
+
+
+You can play with title and axis labels -
+
+```{r}
+
+p + 
+  geom_point(aes(colour=year), size = 3, alpha = 0.2) +
+  #geom_text(aes(label=model)) + # may be not a good idea now.
+  labs(
+    title = "Fuel efficiency vs Engine displacement",
+    subtitle = "Fuel efficiency decreases with the engine size",
+    caption = "Two-seater is an exception",
+    x = "Engine displacement (L)",
+    y = "Highway fule economy (mpg)",
+    colour = "Manufactrure year"
+  )
+```
+
+If your datapoints are a bit tightly spaced, you can jitter a bit -
+
+```{r}
+
+p + 
+  geom_point(aes(colour=class), size = 3, position = "jitter") # introducing jitter here. For controlling the amount of movements, you can use geom_jitter()
+```
+
+Let's play with some scaling -
+
+```{r}
+p + 
+  geom_point(aes(colour=class), size = 3, alpha = 0.2) +
+  scale_x_continuous(name = "x-axis label changed", breaks = seq(0,10,by=5),limits = c(0,10)) +
+  scale_y_continuous(trans = "reverse")
+
+p + 
+  geom_point(aes(colour=class), size = 3, alpha = 0.2) +
+  scale_colour_brewer(palette = "Set1") # scale_colour is a widely used one
+
+```
+
+You can play with the positioning of the legend, too -
+
+```{r}
+
+p + 
+  geom_point(aes(colour=class), size = 3, alpha = 0.2) +
+  theme(legend.position = "left")
+
+p + 
+  geom_point(aes(colour=class), size = 3, alpha = 0.2) +
+  theme(legend.position = "none") 
+
+```
+
+##### Faceting 
+
+If you have too many data points, the idea of faceting is to sub-setting the plot by an appropriate variable -
+
+```{r}
+p + 
+  geom_point(aes(colour=class), size = 3, alpha = 0.2) +
+  facet_wrap(~ class, ncol = 2)
+
+p + 
+  geom_point(aes(colour=class), size = 3, alpha = 0.2) +
+  facet_grid(~ class) # if there were any blank plot, won't be plotted here
+```
+
+
+##### Theme
+
+There are different themes to play with -
+
+```{r}
+p + 
+  geom_point(aes(colour=class), size = 3, alpha = 0.2) +
+  theme_void()
+```
+
+#### Bar plot and position adjustment. 
+
+By default, the bar plot comes as stacked. If you fill it by a variable that is not used to plot the bars, you can see what I mean. However, for playing with the bar plot, I will be using another dataset called 'diamonds' that comes with **R**.
+
+To begin with -
+
+```{r}
+ggplot(data=diamonds) +
+  geom_bar(mapping = aes(x=cut))
+
+```
+
+```{r}
+ggplot(data=diamonds) +
+  geom_bar(mapping = aes(x=cut, fill=cut))
+```
+
+But - 
+
+```{r}
+ggplot(data=diamonds) +
+  geom_bar(mapping = aes(x=cut, fill=clarity))
+```
+
+The position is adjusted by the position argument which takes in three options - "identity", "fill", and "dodge"
+
+```{r}
+ggplot(data=diamonds) +
+  geom_bar(mapping = aes(x=cut, fill=clarity), position = "identity")
+```
+
+Here, each object falls exactly where it should be in the context of the plot and seems to be overlapped. It can be a little better if you use fill = NA or use alpha value 
+
+```{r}
+ggplot(data=diamonds) +
+  geom_bar(mapping = aes(x=cut, fill=clarity), position = "identity", alpha = 0.2)
+
+ggplot(data=diamonds) +
+  geom_bar(mapping = aes(x=cut, colour=clarity), position = "identity", fill=NA) # mind the change of colour and fill
+```
+
+Position fill catches up all the space vertically for each bar and displays as fraction of the values
+
+```{r}
+ggplot(data=diamonds) +
+  geom_bar(mapping = aes(x=cut, fill=clarity), position = "fill")
+```
+
+But what we usually mean by the bar plots is the next - 
+
+```{r}
+ggplot(data=diamonds) +
+  geom_bar(mapping = aes(x=cut, fill=clarity), position = "dodge")
+
+```
+
+
+#### Coordinate system 
+
+Let's  cover it with box plots.
+
+```{r}
+ggplot(mpg, aes(class, hwy)) +
+  geom_boxplot() +
+  coord_flip()
+
+ggplot(mpg, aes(class, hwy)) +
+  geom_boxplot() +
+  coord_polar()
+# Please don't plot boxplot in this way in real-life.
+```
+
+
+
+
+
+### The rest of the exercise is a copy of the "Top 50 ggplot2 Visualizations - The Master List (With Full R Code)". 
+The link: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
+
+
+
+1. Correlation
+
+The following plots help to examine how well correlated two variables are.
+
+Scatterplot
+The most frequently used plot for data analysis is undoubtedly the scatterplot. Whenever you want to understand the nature of relationship between two variables, invariably the first choice is the scatterplot.
+
+It can be drawn using ```geom_point()```. Additionally, geom_smooth which draws a smoothing line (based on loess) by default, can be tweaked to draw the line of best fit by setting method='lm'.
+
+```{R}
+
+# install.packages("ggplot2")
+# load package and data
+options(scipen=999)  # turn-off scientific notation like 1e+48
+library(ggplot2)
+theme_set(theme_bw())  # pre-set the bw theme.
+data("midwest", package = "ggplot2")
+# midwest <- read.csv("http://goo.gl/G1K41K")  # bkup data source
+
+# Scatterplot
+gg <- ggplot(midwest, aes(x=area, y=poptotal)) + 
+  geom_point(aes(col=state, size=popdensity)) + 
+  geom_smooth(method="loess", se=F) + 
+  xlim(c(0, 0.1)) + 
+  ylim(c(0, 500000)) + 
+  labs(subtitle="Area Vs Population", 
+       y="Population", 
+       x="Area", 
+       title="Scatterplot", 
+       caption = "Source: midwest")
+
+plot(gg)
+```
+
+
+
+
+References:
+https://r4ds.had.co.nz/data-visualisation.html
+https://ggplot2.tidyverse.org/
+https://r4ds.had.co.nz/graphics-for-communication.html
+http://r-statistics.co/ggplot2-Tutorial-With-R.html
+http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
+https://beanumber.github.io/sds192/lab-ggplot2.html

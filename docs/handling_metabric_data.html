@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Metabric data analysis | Exploratory data analysis for cancer biologists</title>
+  <meta name="description" content="This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using R (statistical-) programming language in their MSc projects." />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Metabric data analysis | Exploratory data analysis for cancer biologists" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using R (statistical-) programming language in their MSc projects." />
+  <meta name="github-repo" content="AMMHasan/Exploratory_data_analysis_for_cancer_biologists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Metabric data analysis | Exploratory data analysis for cancer biologists" />
+  
+  <meta name="twitter:description" content="This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using R (statistical-) programming language in their MSc projects." />
+  
+
+<meta name="author" content="A M Mahedi Hasan" />
+
+
+<meta name="date" content="2023-04-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="plotting.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SHORT TITLE HERE</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="preface.html"><a href="preface.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="data_mannipulation.html"><a href="data_mannipulation.html"><i class="fa fa-check"></i><b>1</b> Data manipulation</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="data_mannipulation.html"><a href="data_mannipulation.html#install"><i class="fa fa-check"></i><b>1.1</b> Install</a></li>
+<li class="chapter" data-level="1.2" data-path="data_mannipulation.html"><a href="data_mannipulation.html#pipe-operator"><i class="fa fa-check"></i><b>1.2</b> Pipe operator %&gt;%</a></li>
+<li class="chapter" data-level="1.3" data-path="data_mannipulation.html"><a href="data_mannipulation.html#dplyr-verbs"><i class="fa fa-check"></i><b>1.3</b> dplyr verbs</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="data_mannipulation.html"><a href="data_mannipulation.html#select"><i class="fa fa-check"></i><b>1.3.1</b> select()</a></li>
+<li class="chapter" data-level="1.3.2" data-path="data_mannipulation.html"><a href="data_mannipulation.html#filter"><i class="fa fa-check"></i><b>1.3.2</b> filter()</a></li>
+<li class="chapter" data-level="1.3.3" data-path="data_mannipulation.html"><a href="data_mannipulation.html#mutate"><i class="fa fa-check"></i><b>1.3.3</b> mutate()</a></li>
+<li class="chapter" data-level="1.3.4" data-path="data_mannipulation.html"><a href="data_mannipulation.html#rename"><i class="fa fa-check"></i><b>1.3.4</b> rename()</a></li>
+<li class="chapter" data-level="1.3.5" data-path="data_mannipulation.html"><a href="data_mannipulation.html#arrange"><i class="fa fa-check"></i><b>1.3.5</b> arrange()</a></li>
+<li class="chapter" data-level="1.3.6" data-path="data_mannipulation.html"><a href="data_mannipulation.html#distinct"><i class="fa fa-check"></i><b>1.3.6</b> distinct()</a></li>
+<li class="chapter" data-level="1.3.7" data-path="data_mannipulation.html"><a href="data_mannipulation.html#slice"><i class="fa fa-check"></i><b>1.3.7</b> slice()</a></li>
+<li class="chapter" data-level="1.3.8" data-path="data_mannipulation.html"><a href="data_mannipulation.html#join"><i class="fa fa-check"></i><b>1.3.8</b> join</a></li>
+<li class="chapter" data-level="1.3.9" data-path="data_mannipulation.html"><a href="data_mannipulation.html#group_by-and-summarise"><i class="fa fa-check"></i><b>1.3.9</b> group_by() and summarise()</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="plotting.html"><a href="plotting.html"><i class="fa fa-check"></i><b>2</b> Plotting</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="plotting.html"><a href="plotting.html#ggplot2"><i class="fa fa-check"></i><b>2.1</b> ggplot2</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="plotting.html"><a href="plotting.html#installation"><i class="fa fa-check"></i><b>2.1.1</b> Installation</a></li>
+<li class="chapter" data-level="2.1.2" data-path="plotting.html"><a href="plotting.html#the-rest-of-the-exercise-is-a-copy-of-the-top-50-ggplot2-visualizations---the-master-list-with-full-r-code."><i class="fa fa-check"></i><b>2.1.2</b> The rest of the exercise is a copy of the “Top 50 ggplot2 Visualizations - The Master List (With Full R Code)”.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="handling_metabric_data.html"><a href="handling_metabric_data.html"><i class="fa fa-check"></i><b>3</b> Metabric data analysis</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Exploratory data analysis for cancer biologists</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="handling_metabric_data" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Metabric data analysis<a href="handling_metabric_data.html#handling_metabric_data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Now it’s our turn to apply the techniques that we have learned so far in this workshop. In this section, we will explore some datasets that were part of a study characterising the genomic mutations (SNVs and CNAs) and gene expression profiles for over 2000 primary breast tumours. In addition, a detailed clinical information can also be found for this study alongside the experimental data from <a href="https://www.cbioportal.org/study/summary?id=brca_metabric">cBioPortal</a>. The study was published under two prominent publications -</p>
+<p><a href="https://pubmed.ncbi.nlm.nih.gov/22522925/">Curtis et al., Nature 486:346-52, 2012</a></p>
+<p><a href="https://pubmed.ncbi.nlm.nih.gov/27161491/">Pereira et al., Nature Communications 7:11479, 2016</a></p>
+<p>FYI, the gene expression data generated using microarrays, genome-wide copy number profiles were obtained using SNP microarrays and targeted sequencing was performed using a panel of 40 driver-mutation genes to detect mutations (single nucleotide variants).</p>
+<p>Let’s download the data and save it in the <code>workshop2</code> folder. We will be plotting different aspects of the patient related information and biological aspect for the sake of <em>exploratory data analysis (EDA)</em>. And for that, we will have to merge and format the data provided. Now, let’s load the data one by one using the function <code>read.delim</code> with appropriate parameters -</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="handling_metabric_data.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb125-2"><a href="handling_metabric_data.html#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb125-3"><a href="handling_metabric_data.html#cb125-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-4"><a href="handling_metabric_data.html#cb125-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-5"><a href="handling_metabric_data.html#cb125-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load patient data and explore a few of the columns (e.g. BREAST_SURGERY, CELLULARITY,CHEMOTHERAPY, ER_IHC ) -</span></span>
+<span id="cb125-6"><a href="handling_metabric_data.html#cb125-6" aria-hidden="true" tabindex="-1"></a>patient_data <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_clinical_patient.txt&quot;</span>,<span class="at">comment.char =</span> <span class="st">&quot;#&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb125-7"><a href="handling_metabric_data.html#cb125-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-8"><a href="handling_metabric_data.html#cb125-8" aria-hidden="true" tabindex="-1"></a>patient_data <span class="sc">%&gt;%</span> <span class="fu">pull</span>(BREAST_SURGERY) <span class="sc">%&gt;%</span> table</span></code></pre></div>
+<pre><code>## .
+##                   BREAST CONSERVING        MASTECTOMY 
+##               554               785              1170</code></pre>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="handling_metabric_data.html#cb127-1" aria-hidden="true" tabindex="-1"></a>patient_data <span class="sc">%&gt;%</span> <span class="fu">pull</span>(CELLULARITY) <span class="sc">%&gt;%</span> table</span></code></pre></div>
+<pre><code>## .
+##              High      Low Moderate 
+##      592      965      215      737</code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="handling_metabric_data.html#cb129-1" aria-hidden="true" tabindex="-1"></a>patient_data <span class="sc">%&gt;%</span> <span class="fu">pull</span>(CHEMOTHERAPY) <span class="sc">%&gt;%</span> table</span></code></pre></div>
+<pre><code>## .
+##        NO  YES 
+##  529 1568  412</code></pre>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="handling_metabric_data.html#cb131-1" aria-hidden="true" tabindex="-1"></a>patient_data <span class="sc">%&gt;%</span> <span class="fu">pull</span>(ER_IHC) <span class="sc">%&gt;%</span> table</span></code></pre></div>
+<pre><code>## .
+##          Negative  Positve 
+##       83      609     1817</code></pre>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="handling_metabric_data.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load sample data and explore the ER_STATUS</span></span>
+<span id="cb133-2"><a href="handling_metabric_data.html#cb133-2" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_clinical_sample.txt&quot;</span>,<span class="at">comment.char =</span> <span class="st">&quot;#&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb133-3"><a href="handling_metabric_data.html#cb133-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb133-4"><a href="handling_metabric_data.html#cb133-4" aria-hidden="true" tabindex="-1"></a>sample_data <span class="sc">%&gt;%</span> <span class="fu">pull</span>(ER_STATUS) <span class="sc">%&gt;%</span> table</span></code></pre></div>
+<pre><code>## .
+## Negative Positive 
+##      644     1825</code></pre>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="handling_metabric_data.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load CNA data and explore</span></span>
+<span id="cb135-2"><a href="handling_metabric_data.html#cb135-2" aria-hidden="true" tabindex="-1"></a>CNA_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_cna.txt&quot;</span>,<span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb135-3"><a href="handling_metabric_data.html#cb135-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Entrez_Gene_Id) <span class="sc">%&gt;%</span></span>
+<span id="cb135-4"><a href="handling_metabric_data.html#cb135-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(Hugo_Symbol, <span class="at">.keep_all =</span> T)</span>
+<span id="cb135-5"><a href="handling_metabric_data.html#cb135-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-6"><a href="handling_metabric_data.html#cb135-6" aria-hidden="true" tabindex="-1"></a>CNA_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>##    Hugo_Symbol MB.0000 MB.0039 MB.0045 MB.0046 MB.0048 MB.0050 MB.0053 MB.0062
+## 1         A1BG       0       0      -1       0       0       0       0      -1
+## 2     A1BG-AS1       0       0      -1       0       0       0       0      -1
+## 3         A1CF       0       0       0       0       1       0       0       0
+## 4          A2M       0       0      -1      -1       0       0       0       2
+## 5      A2M-AS1       0       0      -1      -1       0       0       0       2
+## 6        A2ML1       0       0      -1      -1       0       0       0       2
+## 7        A2MP1       0       0      -1      -1       0       0       0       2
+## 8      A3GALT2       0       0       0       0       0       0       0      -1
+## 9       A4GALT       0       0       0      -1      -1      -1       0       1
+## 10       A4GNT       0       0       2       0       0       0       1       1
+##    MB.0064
+## 1        0
+## 2        0
+## 3        0
+## 4        0
+## 5        0
+## 6        0
+## 7        0
+## 8        0
+## 9        0
+## 10       0</code></pre>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="handling_metabric_data.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load mutation data and explore</span></span>
+<span id="cb137-2"><a href="handling_metabric_data.html#cb137-2" aria-hidden="true" tabindex="-1"></a>mutation_data <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_mutations.txt&quot;</span>,<span class="at">comment.char =</span> <span class="st">&quot;#&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>) </span>
+<span id="cb137-3"><a href="handling_metabric_data.html#cb137-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-4"><a href="handling_metabric_data.html#cb137-4" aria-hidden="true" tabindex="-1"></a>mutation_data <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##   Hugo_Symbol Entrez_Gene_Id   Center NCBI_Build Chromosome Start_Position
+## 1        TP53             NA METABRIC     GRCh37         17        7579344
+## 2        TP53             NA METABRIC     GRCh37         17        7579346
+## 3       MLLT4             NA METABRIC     GRCh37          6      168299111
+## 4         NF2             NA METABRIC     GRCh37         22       29999995
+## 5       SF3B1             NA METABRIC     GRCh37          2      198288682
+## 6        NT5E             NA METABRIC     GRCh37          6       86195125
+##   End_Position Strand              Consequence Variant_Classification
+## 1      7579345      +       frameshift_variant        Frame_Shift_Ins
+## 2      7579347      + protein_altering_variant           In_Frame_Ins
+## 3    168299111      +         missense_variant      Missense_Mutation
+## 4     29999995      +         missense_variant      Missense_Mutation
+## 5    198288682      +       synonymous_variant                 Silent
+## 6     86195125      +       synonymous_variant                 Silent
+##   Variant_Type Reference_Allele Tumor_Seq_Allele1 Tumor_Seq_Allele2 dbSNP_RS
+## 1          INS                -                 -                 G       NA
+## 2          INS                -                 -               CAG       NA
+## 3          SNP                G                 G                 T       NA
+## 4          SNP                G                 G                 T       NA
+## 5          SNP                A                 A                 T       NA
+## 6          SNP                T                 T                 C       NA
+##   dbSNP_Val_Status Tumor_Sample_Barcode Matched_Norm_Sample_Barcode
+## 1               NA            MTS-T0058                          NA
+## 2               NA            MTS-T0058                          NA
+## 3               NA            MTS-T0058                          NA
+## 4               NA            MTS-T0058                          NA
+## 5               NA            MTS-T0059                          NA
+## 6               NA            MTS-T0059                          NA
+##   Match_Norm_Seq_Allele1 Match_Norm_Seq_Allele2 Tumor_Validation_Allele1
+## 1                     NA                     NA                       NA
+## 2                     NA                     NA                       NA
+## 3                     NA                     NA                       NA
+## 4                     NA                     NA                       NA
+## 5                     NA                     NA                       NA
+## 6                     NA                     NA                       NA
+##   Tumor_Validation_Allele2 Match_Norm_Validation_Allele1
+## 1                       NA                            NA
+## 2                       NA                            NA
+## 3                       NA                            NA
+## 4                       NA                            NA
+## 5                       NA                            NA
+## 6                       NA                            NA
+##   Match_Norm_Validation_Allele2 Verification_Status Validation_Status
+## 1                            NA                  NA                NA
+## 2                            NA                  NA                NA
+## 3                            NA                  NA                NA
+## 4                            NA                  NA                NA
+## 5                            NA                  NA                NA
+## 6                            NA                  NA                NA
+##   Mutation_Status Sequencing_Phase Sequence_Source Validation_Method Score
+## 1              NA               NA              NA                NA    NA
+## 2              NA               NA              NA                NA    NA
+## 3              NA               NA              NA                NA    NA
+## 4              NA               NA              NA                NA    NA
+## 5              NA               NA              NA                NA    NA
+## 6              NA               NA              NA                NA    NA
+##   BAM_File            Sequencer t_ref_count t_alt_count n_ref_count n_alt_count
+## 1       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 2       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 3       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 4       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 5       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 6       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+##                               HGVSc                HGVSp    HGVSp_Short
+## 1        ENST00000269305.4:c.343dup   p.His115ProfsTer34   p.H115Pfs*34
+## 2 ENST00000269305.4:c.340_341insCTG p.Leu114delinsSerVal p.L114delinsSV
+## 3       ENST00000392108.3:c.1544G&gt;T          p.Gly515Val        p.G515V
+## 4          ENST00000338641.4:c.8G&gt;T            p.Gly3Val          p.G3V
+## 5         ENST00000335508.6:c.45T&gt;A             p.Ile15=         p.I15=
+## 6        ENST00000257770.3:c.924T&gt;C            p.Ile308=        p.I308=
+##     Transcript_ID         RefSeq Protein_position     Codons Hotspot
+## 1 ENST00000269305 NM_001126112.2              114        -/C       0
+## 2 ENST00000269305 NM_001126112.2              114 ttg/tCTGtg       0
+## 3 ENST00000392108 NM_001040000.2              515    gGa/gTa       0
+## 4 ENST00000338641    NM_000268.3                3    gGg/gTg       0
+## 5 ENST00000335508    NM_012433.2               15    atT/atA       0
+## 6 ENST00000257770    NM_002526.3              308    atT/atC       0</code></pre>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="handling_metabric_data.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load expression data and explore</span></span>
+<span id="cb139-2"><a href="handling_metabric_data.html#cb139-2" aria-hidden="true" tabindex="-1"></a>expression_data <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_mrna_agilent_microarray.txt&quot;</span>,<span class="at">comment.char =</span> <span class="st">&quot;#&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb139-3"><a href="handling_metabric_data.html#cb139-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb139-4"><a href="handling_metabric_data.html#cb139-4" aria-hidden="true" tabindex="-1"></a>expression_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>##    Hugo_Symbol Entrez_Gene_Id  MB.0362  MB.0346   MB.0386  MB.0574  MB.0185
+## 1         RERE            473 8.676978 9.653589  9.033589 8.814855 8.736406
+## 2       RNF165         494470 6.075331 6.687887  5.910885 5.628740 6.392422
+## 3         PHF7          51533 5.838270 5.600876  6.030718 5.849428 5.542133
+## 4        CIDEA           1149 6.397503 5.246319 10.111816 6.116868 5.184098
+## 5        TENT2         167153 7.906217 8.267256  7.959291 9.206376 8.162845
+## 6      SLC17A3          10786 5.702379 5.521794  5.689533 5.439130 5.464326
+## 7          SDS          10993 6.930741 6.141689  6.529312 6.430102 6.105427
+## 8     ATP6V1C2         245973 5.332863 7.563477  5.482155 5.398675 5.026018
+## 9           F3           2152 5.275676 5.376381  5.463788 5.409761 5.338580
+## 10      FAM71C         196472 5.443896 5.319857  5.254294 5.512298 5.430874
+##     MB.0503  MB.0641  MB.0201
+## 1  9.274265 9.286585 8.437347
+## 2  5.908698 6.206729 6.095592
+## 3  5.964661 5.783374 5.737572
+## 4  7.828171 8.744149 5.480091
+## 5  8.706646 8.518929 7.478413
+## 6  5.417484 5.629885 5.686286
+## 7  6.684893 5.632753 5.866132
+## 8  5.266674 5.701353 6.403136
+## 9  5.490693 5.363266 6.341856
+## 10 5.363378 5.191612 5.208379</code></pre>
+<p>To begin with, let’s explore the <code>mutation data</code> a bit by plotting the frequency of different types of mutations -</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="handling_metabric_data.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mutation_data)</span></code></pre></div>
+<pre><code>##   Hugo_Symbol Entrez_Gene_Id   Center NCBI_Build Chromosome Start_Position
+## 1        TP53             NA METABRIC     GRCh37         17        7579344
+## 2        TP53             NA METABRIC     GRCh37         17        7579346
+## 3       MLLT4             NA METABRIC     GRCh37          6      168299111
+## 4         NF2             NA METABRIC     GRCh37         22       29999995
+## 5       SF3B1             NA METABRIC     GRCh37          2      198288682
+## 6        NT5E             NA METABRIC     GRCh37          6       86195125
+##   End_Position Strand              Consequence Variant_Classification
+## 1      7579345      +       frameshift_variant        Frame_Shift_Ins
+## 2      7579347      + protein_altering_variant           In_Frame_Ins
+## 3    168299111      +         missense_variant      Missense_Mutation
+## 4     29999995      +         missense_variant      Missense_Mutation
+## 5    198288682      +       synonymous_variant                 Silent
+## 6     86195125      +       synonymous_variant                 Silent
+##   Variant_Type Reference_Allele Tumor_Seq_Allele1 Tumor_Seq_Allele2 dbSNP_RS
+## 1          INS                -                 -                 G       NA
+## 2          INS                -                 -               CAG       NA
+## 3          SNP                G                 G                 T       NA
+## 4          SNP                G                 G                 T       NA
+## 5          SNP                A                 A                 T       NA
+## 6          SNP                T                 T                 C       NA
+##   dbSNP_Val_Status Tumor_Sample_Barcode Matched_Norm_Sample_Barcode
+## 1               NA            MTS-T0058                          NA
+## 2               NA            MTS-T0058                          NA
+## 3               NA            MTS-T0058                          NA
+## 4               NA            MTS-T0058                          NA
+## 5               NA            MTS-T0059                          NA
+## 6               NA            MTS-T0059                          NA
+##   Match_Norm_Seq_Allele1 Match_Norm_Seq_Allele2 Tumor_Validation_Allele1
+## 1                     NA                     NA                       NA
+## 2                     NA                     NA                       NA
+## 3                     NA                     NA                       NA
+## 4                     NA                     NA                       NA
+## 5                     NA                     NA                       NA
+## 6                     NA                     NA                       NA
+##   Tumor_Validation_Allele2 Match_Norm_Validation_Allele1
+## 1                       NA                            NA
+## 2                       NA                            NA
+## 3                       NA                            NA
+## 4                       NA                            NA
+## 5                       NA                            NA
+## 6                       NA                            NA
+##   Match_Norm_Validation_Allele2 Verification_Status Validation_Status
+## 1                            NA                  NA                NA
+## 2                            NA                  NA                NA
+## 3                            NA                  NA                NA
+## 4                            NA                  NA                NA
+## 5                            NA                  NA                NA
+## 6                            NA                  NA                NA
+##   Mutation_Status Sequencing_Phase Sequence_Source Validation_Method Score
+## 1              NA               NA              NA                NA    NA
+## 2              NA               NA              NA                NA    NA
+## 3              NA               NA              NA                NA    NA
+## 4              NA               NA              NA                NA    NA
+## 5              NA               NA              NA                NA    NA
+## 6              NA               NA              NA                NA    NA
+##   BAM_File            Sequencer t_ref_count t_alt_count n_ref_count n_alt_count
+## 1       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 2       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 3       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 4       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 5       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+## 6       NA Illumina HiSeq 2,000          NA          NA          NA          NA
+##                               HGVSc                HGVSp    HGVSp_Short
+## 1        ENST00000269305.4:c.343dup   p.His115ProfsTer34   p.H115Pfs*34
+## 2 ENST00000269305.4:c.340_341insCTG p.Leu114delinsSerVal p.L114delinsSV
+## 3       ENST00000392108.3:c.1544G&gt;T          p.Gly515Val        p.G515V
+## 4          ENST00000338641.4:c.8G&gt;T            p.Gly3Val          p.G3V
+## 5         ENST00000335508.6:c.45T&gt;A             p.Ile15=         p.I15=
+## 6        ENST00000257770.3:c.924T&gt;C            p.Ile308=        p.I308=
+##     Transcript_ID         RefSeq Protein_position     Codons Hotspot
+## 1 ENST00000269305 NM_001126112.2              114        -/C       0
+## 2 ENST00000269305 NM_001126112.2              114 ttg/tCTGtg       0
+## 3 ENST00000392108 NM_001040000.2              515    gGa/gTa       0
+## 4 ENST00000338641    NM_000268.3                3    gGg/gTg       0
+## 5 ENST00000335508    NM_012433.2               15    atT/atA       0
+## 6 ENST00000257770    NM_002526.3              308    atT/atC       0</code></pre>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="handling_metabric_data.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mutation_data,<span class="at">mapping =</span> <span class="fu">aes</span>(Variant_Classification, <span class="at">fill=</span>Variant_Classification)) <span class="sc">+</span> </span>
+<span id="cb143-2"><a href="handling_metabric_data.html#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span> </span>
+<span id="cb143-3"><a href="handling_metabric_data.html#cb143-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<p>Now we will build a word cloud of genes that had been affected by mutations -</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="handling_metabric_data.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;wordcloud&quot;)</span></span>
+<span id="cb144-2"><a href="handling_metabric_data.html#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wordcloud)</span></code></pre></div>
+<pre><code>## Loading required package: RColorBrewer</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="handling_metabric_data.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We need the gene name and how many times they are affected by any non-synonymous mutation -</span></span>
+<span id="cb146-2"><a href="handling_metabric_data.html#cb146-2" aria-hidden="true" tabindex="-1"></a>mutation_wordcloud_data <span class="ot">&lt;-</span> mutation_data <span class="sc">%&gt;%</span></span>
+<span id="cb146-3"><a href="handling_metabric_data.html#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Consequence <span class="sc">!=</span> <span class="st">&quot;synonymous_variant&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb146-4"><a href="handling_metabric_data.html#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Hugo_Symbol) <span class="sc">%&gt;%</span> </span>
+<span id="cb146-5"><a href="handling_metabric_data.html#cb146-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">freq=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb146-6"><a href="handling_metabric_data.html#cb146-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">word=</span>Hugo_Symbol)</span>
+<span id="cb146-7"><a href="handling_metabric_data.html#cb146-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb146-8"><a href="handling_metabric_data.html#cb146-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s find out some highly affected genes - </span></span>
+<span id="cb146-9"><a href="handling_metabric_data.html#cb146-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mutation_wordcloud_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(freq <span class="sc">&gt;</span> <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb146-10"><a href="handling_metabric_data.html#cb146-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(word, freq)) <span class="sc">+</span></span>
+<span id="cb146-11"><a href="handling_metabric_data.html#cb146-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="handling_metabric_data.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now create the word cloud</span></span>
+<span id="cb147-2"><a href="handling_metabric_data.html#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud</span>(<span class="at">word=</span>mutation_wordcloud_data <span class="sc">%&gt;%</span> <span class="fu">pull</span>(word),</span>
+<span id="cb147-3"><a href="handling_metabric_data.html#cb147-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">freq =</span> mutation_wordcloud_data <span class="sc">%&gt;%</span> <span class="fu">pull</span>(freq),</span>
+<span id="cb147-4"><a href="handling_metabric_data.html#cb147-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">scale=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="fl">0.5</span>),     <span class="co"># Set min and max scale</span></span>
+<span id="cb147-5"><a href="handling_metabric_data.html#cb147-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">max.words=</span><span class="dv">100</span>,      <span class="co"># Set top n words</span></span>
+<span id="cb147-6"><a href="handling_metabric_data.html#cb147-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">random.order=</span><span class="cn">FALSE</span>, <span class="co"># Words in decreasing freq</span></span>
+<span id="cb147-7"><a href="handling_metabric_data.html#cb147-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">rot.per=</span><span class="fl">0.35</span>,       <span class="co"># % of vertical words</span></span>
+<span id="cb147-8"><a href="handling_metabric_data.html#cb147-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">use.r.layout=</span>T, <span class="co"># Use C++ collision detection</span></span>
+<span id="cb147-9"><a href="handling_metabric_data.html#cb147-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Dark2&quot;</span>))</span></code></pre></div>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-52-2.png" width="672" /></p>
+<p>Now, we will subset the loaded data so that we can merge (or join) them together later. We will create new dataset containing -</p>
+<ul>
+<li><p>Frequency of mutations per patient from <code>mutation_data</code>.</p></li>
+<li><p>Expression data for selected (but important) genes: <code>"GATA3","FOXA1","MLPH","ESR1","ERBB2","PGR","TP53","PIK3CA", "AKT1", "PTEN", "PIK3R1", "FOXO3","RB1", "KMT2C", "ARID1A", "NCOR1","CTCF","MAP3K1","NF1","CDH1","TBX3","CBFB","RUNX1", "USP9X","SF3B1"</code></p></li>
+<li><p>Sub-setting <code>sample_data</code> using selected columns: <code>PATIENT_ID, SAMPLE_ID, ER_STATUS, HER2_STATUS, PR_STATUS,GRADE</code>.</p></li>
+<li><p>Sub-setting <code>patient_data</code> using selected columns: <code>PATIENT_ID, THREEGENE, AGE_AT_DIAGNOSIS, CELLULARITY, CHEMOTHERAPY, ER_IHC, HORMONE_THERAPY, INTCLUST, NPI, CLAUDIN_SUBTYPE</code>.</p></li>
+</ul>
+<p>And, we will combine all the data based on the <code>patient_ID</code> to create a master dataset that we will use in the rest of the worshop.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="handling_metabric_data.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find out the frequency of mutations per patient</span></span>
+<span id="cb148-2"><a href="handling_metabric_data.html#cb148-2" aria-hidden="true" tabindex="-1"></a>mutation_per_patient <span class="ot">&lt;-</span> mutation_data <span class="sc">%&gt;%</span></span>
+<span id="cb148-3"><a href="handling_metabric_data.html#cb148-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Consequence <span class="sc">!=</span> <span class="st">&quot;synonymous_variant&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb148-4"><a href="handling_metabric_data.html#cb148-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Tumor_Sample_Barcode) <span class="sc">%&gt;%</span></span>
+<span id="cb148-5"><a href="handling_metabric_data.html#cb148-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb148-6"><a href="handling_metabric_data.html#cb148-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb148-7"><a href="handling_metabric_data.html#cb148-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">patient_ID =</span> <span class="st">&quot;.&quot;</span>, <span class="at">Mutation_count=</span>Freq)</span>
+<span id="cb148-8"><a href="handling_metabric_data.html#cb148-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-9"><a href="handling_metabric_data.html#cb148-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-10"><a href="handling_metabric_data.html#cb148-10" aria-hidden="true" tabindex="-1"></a><span class="co"># subsetting and formatting the expression data </span></span>
+<span id="cb148-11"><a href="handling_metabric_data.html#cb148-11" aria-hidden="true" tabindex="-1"></a>sub_expression_data <span class="ot">&lt;-</span> expression_data <span class="sc">%&gt;%</span> </span>
+<span id="cb148-12"><a href="handling_metabric_data.html#cb148-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Hugo_Symbol <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;GATA3&quot;</span>,<span class="st">&quot;FOXA1&quot;</span>,<span class="st">&quot;MLPH&quot;</span>,<span class="st">&quot;ESR1&quot;</span>,<span class="st">&quot;ERBB2&quot;</span>,<span class="st">&quot;PGR&quot;</span>,<span class="st">&quot;TP53&quot;</span>,<span class="st">&quot;PIK3CA&quot;</span>,</span>
+<span id="cb148-13"><a href="handling_metabric_data.html#cb148-13" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;AKT1&quot;</span>, <span class="st">&quot;PTEN&quot;</span>, <span class="st">&quot;PIK3R1&quot;</span>, <span class="st">&quot;FOXO3&quot;</span>,<span class="st">&quot;RB1&quot;</span>, <span class="st">&quot;KMT2C&quot;</span>, <span class="st">&quot;ARID1A&quot;</span>,</span>
+<span id="cb148-14"><a href="handling_metabric_data.html#cb148-14" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;NCOR1&quot;</span>,<span class="st">&quot;CTCF&quot;</span>,<span class="st">&quot;MAP3K1&quot;</span>,<span class="st">&quot;NF1&quot;</span>,<span class="st">&quot;CDH1&quot;</span>,<span class="st">&quot;TBX3&quot;</span>,<span class="st">&quot;CBFB&quot;</span>,<span class="st">&quot;RUNX1&quot;</span>,</span>
+<span id="cb148-15"><a href="handling_metabric_data.html#cb148-15" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;USP9X&quot;</span>,<span class="st">&quot;SF3B1&quot;</span>))</span>
+<span id="cb148-16"><a href="handling_metabric_data.html#cb148-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-17"><a href="handling_metabric_data.html#cb148-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(sub_expression_data) <span class="ot">&lt;-</span> sub_expression_data<span class="sc">$</span>Hugo_Symbol</span>
+<span id="cb148-18"><a href="handling_metabric_data.html#cb148-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-19"><a href="handling_metabric_data.html#cb148-19" aria-hidden="true" tabindex="-1"></a>sub_expression_data <span class="ot">&lt;-</span> sub_expression_data <span class="sc">%&gt;%</span></span>
+<span id="cb148-20"><a href="handling_metabric_data.html#cb148-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Hugo_Symbol,<span class="sc">-</span>Entrez_Gene_Id) <span class="sc">%&gt;%</span></span>
+<span id="cb148-21"><a href="handling_metabric_data.html#cb148-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb148-22"><a href="handling_metabric_data.html#cb148-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb148-23"><a href="handling_metabric_data.html#cb148-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">patient_ID =</span> <span class="fu">rownames</span>(.))</span>
+<span id="cb148-24"><a href="handling_metabric_data.html#cb148-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-25"><a href="handling_metabric_data.html#cb148-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-26"><a href="handling_metabric_data.html#cb148-26" aria-hidden="true" tabindex="-1"></a><span class="co"># subsetting the sample_data</span></span>
+<span id="cb148-27"><a href="handling_metabric_data.html#cb148-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-28"><a href="handling_metabric_data.html#cb148-28" aria-hidden="true" tabindex="-1"></a>sub_sample_data <span class="ot">&lt;-</span> sample_data <span class="sc">%&gt;%</span> </span>
+<span id="cb148-29"><a href="handling_metabric_data.html#cb148-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">patient_ID =</span> PATIENT_ID,</span>
+<span id="cb148-30"><a href="handling_metabric_data.html#cb148-30" aria-hidden="true" tabindex="-1"></a>         <span class="at">sample_ID =</span> SAMPLE_ID,</span>
+<span id="cb148-31"><a href="handling_metabric_data.html#cb148-31" aria-hidden="true" tabindex="-1"></a>         <span class="at">cancer_type =</span> CANCER_TYPE,</span>
+<span id="cb148-32"><a href="handling_metabric_data.html#cb148-32" aria-hidden="true" tabindex="-1"></a>         <span class="at">cancer_type_detailed =</span> CANCER_TYPE_DETAILED,</span>
+<span id="cb148-33"><a href="handling_metabric_data.html#cb148-33" aria-hidden="true" tabindex="-1"></a>         <span class="at">ER_status =</span> ER_STATUS,</span>
+<span id="cb148-34"><a href="handling_metabric_data.html#cb148-34" aria-hidden="true" tabindex="-1"></a>         <span class="at">HER2_status =</span> HER2_STATUS,</span>
+<span id="cb148-35"><a href="handling_metabric_data.html#cb148-35" aria-hidden="true" tabindex="-1"></a>         <span class="at">PR_status =</span> PR_STATUS,</span>
+<span id="cb148-36"><a href="handling_metabric_data.html#cb148-36" aria-hidden="true" tabindex="-1"></a>         <span class="at">Neoplasm_Histologic_Grade =</span> GRADE)</span>
+<span id="cb148-37"><a href="handling_metabric_data.html#cb148-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-38"><a href="handling_metabric_data.html#cb148-38" aria-hidden="true" tabindex="-1"></a><span class="co"># subsetting the patient data </span></span>
+<span id="cb148-39"><a href="handling_metabric_data.html#cb148-39" aria-hidden="true" tabindex="-1"></a>sub_patient_data <span class="ot">&lt;-</span> patient_data <span class="sc">%&gt;%</span></span>
+<span id="cb148-40"><a href="handling_metabric_data.html#cb148-40" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(<span class="at">patient_ID =</span> PATIENT_ID,</span>
+<span id="cb148-41"><a href="handling_metabric_data.html#cb148-41" aria-hidden="true" tabindex="-1"></a>          <span class="at">Three_gene_classifier_subtype =</span> THREEGENE,</span>
+<span id="cb148-42"><a href="handling_metabric_data.html#cb148-42" aria-hidden="true" tabindex="-1"></a>          <span class="at">Age_at_diagnosis =</span> AGE_AT_DIAGNOSIS,</span>
+<span id="cb148-43"><a href="handling_metabric_data.html#cb148-43" aria-hidden="true" tabindex="-1"></a>          <span class="at">Cellularity =</span> CELLULARITY,</span>
+<span id="cb148-44"><a href="handling_metabric_data.html#cb148-44" aria-hidden="true" tabindex="-1"></a>          <span class="at">Chemotherapy =</span> CHEMOTHERAPY,</span>
+<span id="cb148-45"><a href="handling_metabric_data.html#cb148-45" aria-hidden="true" tabindex="-1"></a>          <span class="at">ER_status_measured_by_IHC =</span> ER_IHC,</span>
+<span id="cb148-46"><a href="handling_metabric_data.html#cb148-46" aria-hidden="true" tabindex="-1"></a>          <span class="at">Hormone_therapy =</span> HORMONE_THERAPY,</span>
+<span id="cb148-47"><a href="handling_metabric_data.html#cb148-47" aria-hidden="true" tabindex="-1"></a>          <span class="at">Integrative_cluster =</span> INTCLUST,</span>
+<span id="cb148-48"><a href="handling_metabric_data.html#cb148-48" aria-hidden="true" tabindex="-1"></a>          <span class="at">Nottingham_prognostic_index =</span> NPI,</span>
+<span id="cb148-49"><a href="handling_metabric_data.html#cb148-49" aria-hidden="true" tabindex="-1"></a>          <span class="at">PAM50 =</span> CLAUDIN_SUBTYPE)</span>
+<span id="cb148-50"><a href="handling_metabric_data.html#cb148-50" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb148-51"><a href="handling_metabric_data.html#cb148-51" aria-hidden="true" tabindex="-1"></a><span class="co"># let&#39;s combine the dataset </span></span>
+<span id="cb148-52"><a href="handling_metabric_data.html#cb148-52" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sub_patient_data,sub_sample_data, <span class="at">by=</span><span class="st">&quot;patient_ID&quot;</span>)</span>
+<span id="cb148-53"><a href="handling_metabric_data.html#cb148-53" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(combined_data, mutation_per_patient, <span class="at">by=</span><span class="st">&quot;patient_ID&quot;</span>)</span>
+<span id="cb148-54"><a href="handling_metabric_data.html#cb148-54" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb148-55"><a href="handling_metabric_data.html#cb148-55" aria-hidden="true" tabindex="-1"></a>combined_data<span class="sc">$</span>patient_ID <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;-&quot;</span>,<span class="st">&quot;.&quot;</span>,combined_data<span class="sc">$</span>patient_ID) <span class="co"># replace the &#39;-&#39; sign to &#39;.&#39; in the patient_ID column</span></span>
+<span id="cb148-56"><a href="handling_metabric_data.html#cb148-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-57"><a href="handling_metabric_data.html#cb148-57" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(combined_data,sub_expression_data, <span class="at">by=</span><span class="st">&quot;patient_ID&quot;</span>)</span></code></pre></div>
+<p>Now, we will generate a scatter plot using the expression data of Estrogen receptor <code>ESR1</code> against that of transcription factor <code>GATA3</code>. Then we will build our understanding of their coexpression by building a linear model. We will then refine that based on the ER_status (positive or negative) -</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="handling_metabric_data.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> combined_data) <span class="sc">+</span></span>
+<span id="cb149-2"><a href="handling_metabric_data.html#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1))</span></code></pre></div>
+<pre><code>## Warning: Removed 529 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="handling_metabric_data.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> combined_data <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>(),  <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1)) <span class="sc">+</span></span>
+<span id="cb151-2"><a href="handling_metabric_data.html#cb151-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-54-2.png" width="672" /></p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="handling_metabric_data.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> combined_data <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()) <span class="sc">+</span></span>
+<span id="cb153-2"><a href="handling_metabric_data.html#cb153-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1,<span class="at">colour =</span> ER_status))</span></code></pre></div>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-54-3.png" width="672" /></p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="handling_metabric_data.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> combined_data <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>(),  <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1,<span class="at">colour =</span> ER_status)) <span class="sc">+</span></span>
+<span id="cb154-2"><a href="handling_metabric_data.html#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-54-4.png" width="672" /></p>
+<p>On a different note, <code>GATA3</code> expression is ususlly high in Luminal A subtype of breast cancer and also in positive estrogen receptor (ER+) status (<a href="https://pubmed.ncbi.nlm.nih.gov/18268121/"><em>Voduc D et. al.</em></a>). Let’s find out if that’s try for this study -</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="handling_metabric_data.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data, <span class="fu">aes</span>(PAM50, GATA3)) <span class="sc">+</span> </span>
+<span id="cb156-2"><a href="handling_metabric_data.html#cb156-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 529 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="handling_metabric_data.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>(), <span class="fu">aes</span>(ER_status, GATA3)) <span class="sc">+</span> </span>
+<span id="cb158-2"><a href="handling_metabric_data.html#cb158-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-55-2.png" width="672" /></p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="handling_metabric_data.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>(), <span class="fu">aes</span>(ER_status, GATA3)) <span class="sc">+</span> </span>
+<span id="cb159-2"><a href="handling_metabric_data.html#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill=</span>ER_status))</span></code></pre></div>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-55-3.png" width="672" /></p>
+<p>Now, we will look at the distribution of age of the patients at diagnosis as a function of some selected mutated genes.</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="handling_metabric_data.html#cb160-1" aria-hidden="true" tabindex="-1"></a>mut_gene <span class="ot">&lt;-</span> mutation_data <span class="sc">%&gt;%</span></span>
+<span id="cb160-2"><a href="handling_metabric_data.html#cb160-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Consequence <span class="sc">!=</span> <span class="st">&quot;synonymous_variant&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb160-3"><a href="handling_metabric_data.html#cb160-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">gene=</span>Hugo_Symbol,<span class="at">patient_ID=</span>Tumor_Sample_Barcode )</span>
+<span id="cb160-4"><a href="handling_metabric_data.html#cb160-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-5"><a href="handling_metabric_data.html#cb160-5" aria-hidden="true" tabindex="-1"></a>patient_age <span class="ot">&lt;-</span> patient_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="at">age=</span>AGE_AT_DIAGNOSIS,<span class="at">patient_ID=</span>PATIENT_ID)</span>
+<span id="cb160-6"><a href="handling_metabric_data.html#cb160-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-7"><a href="handling_metabric_data.html#cb160-7" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(mut_gene,patient_age,<span class="at">by=</span><span class="st">&quot;patient_ID&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb160-8"><a href="handling_metabric_data.html#cb160-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gene <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;PIK3CA&quot;</span>, <span class="st">&quot;TP53&quot;</span>, <span class="st">&quot;GATA3&quot;</span>, <span class="st">&quot;CDH1&quot;</span>, <span class="st">&quot;MAP3K1&quot;</span>, <span class="st">&quot;CBFB&quot;</span>, <span class="st">&quot;SF3B1&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb160-9"><a href="handling_metabric_data.html#cb160-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_cat =</span> <span class="fu">case_when</span>(age <span class="sc">&lt;</span> <span class="dv">45</span> <span class="sc">~</span> <span class="st">&quot;&lt;45&quot;</span>,</span>
+<span id="cb160-10"><a href="handling_metabric_data.html#cb160-10" aria-hidden="true" tabindex="-1"></a>                             age <span class="sc">&gt;=</span> <span class="dv">45</span> <span class="sc">&amp;</span> age <span class="sc">&lt;=</span> <span class="dv">54</span> <span class="sc">~</span> <span class="st">&quot;45-54&quot;</span>,</span>
+<span id="cb160-11"><a href="handling_metabric_data.html#cb160-11" aria-hidden="true" tabindex="-1"></a>                             age <span class="sc">&gt;=</span> <span class="dv">55</span> <span class="sc">&amp;</span> age <span class="sc">&lt;=</span> <span class="dv">64</span> <span class="sc">~</span> <span class="st">&quot;55-64&quot;</span>,</span>
+<span id="cb160-12"><a href="handling_metabric_data.html#cb160-12" aria-hidden="true" tabindex="-1"></a>                             age <span class="sc">&gt;</span> <span class="dv">64</span>  <span class="sc">~</span> <span class="st">&quot;&gt;64&quot;</span>,)) <span class="sc">%&gt;%</span></span>
+<span id="cb160-13"><a href="handling_metabric_data.html#cb160-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb160-14"><a href="handling_metabric_data.html#cb160-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-15"><a href="handling_metabric_data.html#cb160-15" aria-hidden="true" tabindex="-1"></a>plot_data<span class="sc">$</span>age_cat <span class="ot">&lt;-</span> <span class="fu">factor</span>(plot_data<span class="sc">$</span>age_cat, <span class="at">ordered =</span> T, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;&gt;64&quot;</span>,<span class="st">&quot;55-64&quot;</span>,<span class="st">&quot;45-54&quot;</span>,<span class="st">&quot;&lt;45&quot;</span>))</span>
+<span id="cb160-16"><a href="handling_metabric_data.html#cb160-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-17"><a href="handling_metabric_data.html#cb160-17" aria-hidden="true" tabindex="-1"></a>plot_data <span class="sc">%&gt;%</span></span>
+<span id="cb160-18"><a href="handling_metabric_data.html#cb160-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene,age_cat) <span class="sc">%&gt;%</span></span>
+<span id="cb160-19"><a href="handling_metabric_data.html#cb160-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gene,age_cat) <span class="sc">%&gt;%</span> </span>
+<span id="cb160-20"><a href="handling_metabric_data.html#cb160-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">freq=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb160-21"><a href="handling_metabric_data.html#cb160-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb160-22"><a href="handling_metabric_data.html#cb160-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(gene,freq, <span class="at">fill=</span>age_cat), <span class="at">position=</span><span class="st">&quot;fill&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb160-23"><a href="handling_metabric_data.html#cb160-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#568a48&quot;</span>,<span class="st">&quot;#6fad76&quot;</span>,<span class="st">&quot;#aac987&quot;</span>,<span class="st">&quot;#e6ede3&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb160-24"><a href="handling_metabric_data.html#cb160-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;gene&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-56-1.png" width="672" />
+Can we distinguish any pattern from the plot?</p>
+<p>Now, we will try to find xplore patterns of co-mutation and mutual exclusivity in a set of 21 driver genes (so-called Mut-driver genes) -</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="handling_metabric_data.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;splitstackshape&quot;)</span></span>
+<span id="cb162-2"><a href="handling_metabric_data.html#cb162-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(splitstackshape)</span>
+<span id="cb162-3"><a href="handling_metabric_data.html#cb162-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;reshape2&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     smiths</code></pre>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="handling_metabric_data.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a matrix for the combination of the frequency of mutatated genes and each patient</span></span>
+<span id="cb165-2"><a href="handling_metabric_data.html#cb165-2" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">t</span>(splitstackshape<span class="sc">:::</span><span class="fu">charMat</span>(<span class="at">listOfValues =</span> <span class="fu">split</span>( mut_gene<span class="sc">$</span>gene,mut_gene<span class="sc">$</span>patient_ID), <span class="at">fill =</span> 0L))</span>
+<span id="cb165-3"><a href="handling_metabric_data.html#cb165-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-4"><a href="handling_metabric_data.html#cb165-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set of 21 Mut-driver genes</span></span>
+<span id="cb165-5"><a href="handling_metabric_data.html#cb165-5" aria-hidden="true" tabindex="-1"></a>mat_gene <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;PIK3CA&quot;</span>,<span class="st">&quot;AKT1&quot;</span>,<span class="st">&quot;PTEN&quot;</span>,<span class="st">&quot;PIK3R1&quot;</span>,<span class="st">&quot;FOXO3&quot;</span>, <span class="st">&quot;RB1&quot;</span>, <span class="st">&quot;KMT2C&quot;</span>, <span class="st">&quot;ARID1A&quot;</span>,<span class="st">&quot;NCOR1&quot;</span>,<span class="st">&quot;CTCF&quot;</span>, <span class="st">&quot;TP53&quot;</span>, <span class="st">&quot;MAP3K1&quot;</span>, <span class="st">&quot;NF1&quot;</span>,<span class="st">&quot;CDH1&quot;</span>,<span class="st">&quot;GATA3&quot;</span>,<span class="st">&quot;TBX3&quot;</span>,<span class="st">&quot;CBFB&quot;</span>,<span class="st">&quot;RUNX1&quot;</span>,<span class="st">&quot;ERBB2&quot;</span>,<span class="st">&quot;USP9X&quot;</span>,<span class="st">&quot;SF3B1&quot;</span>)</span>
+<span id="cb165-6"><a href="handling_metabric_data.html#cb165-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-7"><a href="handling_metabric_data.html#cb165-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create an empty matrix </span></span>
+<span id="cb165-8"><a href="handling_metabric_data.html#cb165-8" aria-hidden="true" tabindex="-1"></a>mat_asso <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data=</span><span class="cn">NA</span>, <span class="at">nrow =</span> <span class="fu">length</span>(mat_gene), <span class="at">ncol =</span> <span class="fu">length</span>(mat_gene))</span>
+<span id="cb165-9"><a href="handling_metabric_data.html#cb165-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mat_asso) <span class="ot">&lt;-</span> mat_gene</span>
+<span id="cb165-10"><a href="handling_metabric_data.html#cb165-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(mat_asso) <span class="ot">&lt;-</span> mat_gene</span>
+<span id="cb165-11"><a href="handling_metabric_data.html#cb165-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-12"><a href="handling_metabric_data.html#cb165-12" aria-hidden="true" tabindex="-1"></a><span class="co"># fill in the cells with log odds ratio for each pairwise association test</span></span>
+<span id="cb165-13"><a href="handling_metabric_data.html#cb165-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> mat_gene){</span>
+<span id="cb165-14"><a href="handling_metabric_data.html#cb165-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> mat_gene){</span>
+<span id="cb165-15"><a href="handling_metabric_data.html#cb165-15" aria-hidden="true" tabindex="-1"></a>    mat_asso[i,j] <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(mat[i,],mat[j,])<span class="sc">$</span>estimate <span class="sc">%&gt;%</span> <span class="fu">log</span>()</span>
+<span id="cb165-16"><a href="handling_metabric_data.html#cb165-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb165-17"><a href="handling_metabric_data.html#cb165-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-18"><a href="handling_metabric_data.html#cb165-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb165-19"><a href="handling_metabric_data.html#cb165-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-20"><a href="handling_metabric_data.html#cb165-20" aria-hidden="true" tabindex="-1"></a><span class="co"># get rid of a triangular half of the matirx</span></span>
+<span id="cb165-21"><a href="handling_metabric_data.html#cb165-21" aria-hidden="true" tabindex="-1"></a>mat_asso[<span class="fu">upper.tri</span>(mat_asso, <span class="at">diag =</span> T)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb165-22"><a href="handling_metabric_data.html#cb165-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-23"><a href="handling_metabric_data.html#cb165-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-24"><a href="handling_metabric_data.html#cb165-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">melt</span>(mat_asso), <span class="fu">aes</span>(Var1,Var2)) <span class="sc">+</span></span>
+<span id="cb165-25"><a href="handling_metabric_data.html#cb165-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>value), <span class="at">colour=</span><span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb165-26"><a href="handling_metabric_data.html#cb165-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;#7c4d91&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#5e8761&quot;</span>,<span class="at">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb165-27"><a href="handling_metabric_data.html#cb165-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb165-28"><a href="handling_metabric_data.html#cb165-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>),</span>
+<span id="cb165-29"><a href="handling_metabric_data.html#cb165-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb165-30"><a href="handling_metabric_data.html#cb165-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb165-31"><a href="handling_metabric_data.html#cb165-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb165-32"><a href="handling_metabric_data.html#cb165-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb165-33"><a href="handling_metabric_data.html#cb165-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="plotting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/AMMHasan/Exploratory_data_analysis_for_cancer_biologists/edit/master/05-handling_metabric_data.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/AMMHasan/Exploratory_data_analysis_for_cancer_biologists/blob/master/05-handling_metabric_data.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

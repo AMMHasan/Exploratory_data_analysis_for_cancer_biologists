@@ -1,0 +1,283 @@
+# Metabric data analysis {-}
+
+Now it's our turn to apply the techniques that we have learned so far in this workshop. In this section, we will explore some datasets that were part of a study characterising the genomic mutations (SNVs and CNAs) and gene expression profiles for over 2000 primary breast tumours. In addition, a detailed clinical information can also be found for this study alongside the experimental data from [cBioPortal](https://www.cbioportal.org/study/summary?id=brca_metabric). The study was published under two prominent publications - 
+
+[Curtis et al., Nature 486:346-52, 2012](https://pubmed.ncbi.nlm.nih.gov/22522925/)
+
+[Pereira et al., Nature Communications 7:11479, 2016](https://pubmed.ncbi.nlm.nih.gov/27161491/)
+
+FYI, the gene expression data generated using microarrays, genome-wide copy number profiles were obtained using SNP microarrays and targeted sequencing was performed using a panel of 40 driver-mutation genes to detect mutations (single nucleotide variants).
+
+Let's download the data and save it in the `workshop2` folder. We will be plotting different aspects of the patient related information and biological aspect for the sake of *exploratory data analysis (EDA)*. And for that, we will have to merge and format the data provided. Now, let's load the data one by one using the function `read.delim` with appropriate parameters -
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+
+
+# Load patient data and explore a few of the columns (e.g. BREAST_SURGERY, CELLULARITY,CHEMOTHERAPY, ER_IHC ) -
+patient_data <- read.delim("/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_clinical_patient.txt",comment.char = "#", sep = "\t")
+
+patient_data %>% pull(BREAST_SURGERY) %>% table
+patient_data %>% pull(CELLULARITY) %>% table
+patient_data %>% pull(CHEMOTHERAPY) %>% table
+patient_data %>% pull(ER_IHC) %>% table
+
+
+# Load sample data and explore the ER_STATUS
+sample_data <- read.delim("/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_clinical_sample.txt",comment.char = "#", sep = "\t")
+
+sample_data %>% pull(ER_STATUS) %>% table
+
+
+# Load CNA data and explore
+CNA_data <- read.table("/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_cna.txt",header = T, sep = "\t") %>%
+  select(-Entrez_Gene_Id) %>%
+  distinct(Hugo_Symbol, .keep_all = T)
+
+CNA_data[1:10, 1:10]
+
+
+# Load mutation data and explore
+mutation_data <- read.delim("/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_mutations.txt",comment.char = "#", sep = "\t") 
+
+mutation_data %>% head()
+
+
+# Load expression data and explore
+expression_data <- read.delim("/Users/mahedi/Documents/Collaborations/UCL_CI/metabric/brca_metabric/data_mrna_agilent_microarray.txt",comment.char = "#", sep = "\t", header = T)
+
+expression_data[1:10, 1:10]
+
+```
+
+
+To begin with, let's explore the `mutation data` a bit by plotting the frequency of different types of mutations - 
+
+```{r}
+head(mutation_data)
+ggplot(data=mutation_data,mapping = aes(Variant_Classification, fill=Variant_Classification)) + 
+  geom_bar() + 
+  coord_flip()
+```
+
+
+Now we will build a word cloud of genes that had been affected by mutations -
+
+```{r}
+# install.packages("wordcloud")
+library(wordcloud)
+# We need the gene name and how many times they are affected by any non-synonymous mutation -
+mutation_wordcloud_data <- mutation_data %>%
+  filter(Consequence != "synonymous_variant") %>%
+  group_by(Hugo_Symbol) %>% 
+  summarise(freq=n()) %>% 
+  rename(word=Hugo_Symbol)
+
+# Let's find out some highly affected genes - 
+ggplot(mutation_wordcloud_data %>% filter(freq > 100)) +
+  geom_col(aes(word, freq)) +
+  coord_flip()
+
+# Now create the word cloud
+wordcloud(word=mutation_wordcloud_data %>% pull(word),
+          freq = mutation_wordcloud_data %>% pull(freq),
+          scale=c(5,0.5),     # Set min and max scale
+          max.words=100,      # Set top n words
+          random.order=FALSE, # Words in decreasing freq
+          rot.per=0.35,       # % of vertical words
+          use.r.layout=T, # Use C++ collision detection
+          colors=brewer.pal(8, "Dark2"))
+```
+
+
+Now, we will subset the loaded data so that we can merge (or join) them together later. We will create new dataset containing -
+
+* Frequency of mutations per patient from `mutation_data`.
+
+* Expression data for selected (but important) genes: `"GATA3","FOXA1","MLPH","ESR1","ERBB2","PGR","TP53","PIK3CA", "AKT1", "PTEN", "PIK3R1", "FOXO3","RB1", "KMT2C", "ARID1A", "NCOR1","CTCF","MAP3K1","NF1","CDH1","TBX3","CBFB","RUNX1", "USP9X","SF3B1"`
+
+* Sub-setting `sample_data` using selected columns: `PATIENT_ID, SAMPLE_ID, ER_STATUS, HER2_STATUS, PR_STATUS,GRADE`.
+
+* Sub-setting `patient_data` using selected columns: `PATIENT_ID, THREEGENE, AGE_AT_DIAGNOSIS, CELLULARITY, CHEMOTHERAPY, ER_IHC, HORMONE_THERAPY, INTCLUST, NPI, CLAUDIN_SUBTYPE`.
+
+And, we will combine all the data based on the `patient_ID` to create a master dataset that we will use in the rest of the worshop.
+
+
+```{r}
+
+# Find out the frequency of mutations per patient
+mutation_per_patient <- mutation_data %>%
+  filter(Consequence != "synonymous_variant") %>%
+  pull(Tumor_Sample_Barcode) %>%
+  table() %>%
+  data.frame() %>% 
+  select(patient_ID = ".", Mutation_count=Freq)
+
+
+# subsetting and formatting the expression data 
+sub_expression_data <- expression_data %>% 
+  filter(Hugo_Symbol %in% c("GATA3","FOXA1","MLPH","ESR1","ERBB2","PGR","TP53","PIK3CA",
+                            "AKT1", "PTEN", "PIK3R1", "FOXO3","RB1", "KMT2C", "ARID1A",
+                            "NCOR1","CTCF","MAP3K1","NF1","CDH1","TBX3","CBFB","RUNX1",
+                            "USP9X","SF3B1"))
+
+rownames(sub_expression_data) <- sub_expression_data$Hugo_Symbol
+
+sub_expression_data <- sub_expression_data %>%
+  select(-Hugo_Symbol,-Entrez_Gene_Id) %>%
+  t() %>%
+  data.frame() %>%
+  mutate(patient_ID = rownames(.))
+
+
+# subsetting the sample_data
+
+sub_sample_data <- sample_data %>% 
+  select(patient_ID = PATIENT_ID,
+         sample_ID = SAMPLE_ID,
+         cancer_type = CANCER_TYPE,
+         cancer_type_detailed = CANCER_TYPE_DETAILED,
+         ER_status = ER_STATUS,
+         HER2_status = HER2_STATUS,
+         PR_status = PR_STATUS,
+         Neoplasm_Histologic_Grade = GRADE)
+
+# subsetting the patient data 
+sub_patient_data <- patient_data %>%
+   select(patient_ID = PATIENT_ID,
+          Three_gene_classifier_subtype = THREEGENE,
+          Age_at_diagnosis = AGE_AT_DIAGNOSIS,
+          Cellularity = CELLULARITY,
+          Chemotherapy = CHEMOTHERAPY,
+          ER_status_measured_by_IHC = ER_IHC,
+          Hormone_therapy = HORMONE_THERAPY,
+          Integrative_cluster = INTCLUST,
+          Nottingham_prognostic_index = NPI,
+          PAM50 = CLAUDIN_SUBTYPE)
+ 
+# let's combine the dataset 
+combined_data <- left_join(sub_patient_data,sub_sample_data, by="patient_ID")
+combined_data <- left_join(combined_data, mutation_per_patient, by="patient_ID")
+ 
+combined_data$patient_ID <- gsub("-",".",combined_data$patient_ID) # replace the '-' sign to '.' in the patient_ID column
+
+combined_data <- left_join(combined_data,sub_expression_data, by="patient_ID")
+
+```
+
+
+Now, we will generate a scatter plot using the expression data of Estrogen receptor `ESR1` against that of transcription factor `GATA3`. Then we will build our understanding of their coexpression by building a linear model. We will then refine that based on the ER_status (positive or negative) - 
+```{r}
+ggplot(data = combined_data) +
+  geom_point(mapping = aes(x = GATA3, y = ESR1))
+
+
+ggplot(data = combined_data %>% na.omit(),  aes(x = GATA3, y = ESR1)) +
+  geom_point() + geom_smooth(method = "lm")
+
+
+ggplot(data = combined_data %>% na.omit()) +
+  geom_point(mapping = aes(x = GATA3, y = ESR1,colour = ER_status))
+
+
+
+ggplot(data = combined_data %>% na.omit(),  aes(x = GATA3, y = ESR1,colour = ER_status)) +
+  geom_point() + geom_smooth(method = "lm")
+
+
+```
+
+
+On a different note, `GATA3` expression is ususlly high in Luminal A subtype of breast cancer and also in positive estrogen receptor (ER+) status ([*Voduc D et. al.*](https://pubmed.ncbi.nlm.nih.gov/18268121/)). Let's find out if that's try for this study -
+
+```{r}
+
+ggplot(combined_data, aes(PAM50, GATA3)) + 
+  geom_boxplot()
+
+ggplot(combined_data %>% na.omit(), aes(ER_status, GATA3)) + 
+  geom_boxplot()
+
+ggplot(combined_data %>% na.omit(), aes(ER_status, GATA3)) + 
+  geom_violin(aes(fill=ER_status))
+
+```
+
+
+Now, we will look at the distribution of age of the patients at diagnosis as a function of some selected mutated genes. 
+```{r}
+
+mut_gene <- mutation_data %>%
+  filter(Consequence != "synonymous_variant") %>%
+  select(gene=Hugo_Symbol,patient_ID=Tumor_Sample_Barcode )
+
+patient_age <- patient_data %>% select(age=AGE_AT_DIAGNOSIS,patient_ID=PATIENT_ID)
+
+plot_data <- left_join(mut_gene,patient_age,by="patient_ID") %>%
+  filter(gene %in% c("PIK3CA", "TP53", "GATA3", "CDH1", "MAP3K1", "CBFB", "SF3B1")) %>%
+  mutate(age_cat = case_when(age < 45 ~ "<45",
+                             age >= 45 & age <= 54 ~ "45-54",
+                             age >= 55 & age <= 64 ~ "55-64",
+                             age > 64  ~ ">64",)) %>%
+  na.omit()
+
+plot_data$age_cat <- factor(plot_data$age_cat, ordered = T, levels = c(">64","55-64","45-54","<45"))
+
+plot_data %>%
+  group_by(gene,age_cat) %>%
+  select(gene,age_cat) %>% 
+  summarise(freq=n()) %>%
+  ggplot() +
+  geom_col(aes(gene,freq, fill=age_cat), position="fill", colour="black") +
+  scale_fill_manual(values=c("#568a48","#6fad76","#aac987","#e6ede3")) +
+  theme_classic()
+
+```
+Can we distinguish any pattern from the plot?
+
+
+Now,  we will try to find xplore patterns of co-mutation and mutual exclusivity in a set of 21 driver genes (so-called Mut-driver genes) - 
+```{r}
+#install.packages("splitstackshape")
+library(splitstackshape)
+library(reshape2)
+
+# create a matrix for the combination of the frequency of mutatated genes and each patient
+mat <- t(splitstackshape:::charMat(listOfValues = split( mut_gene$gene,mut_gene$patient_ID), fill = 0L))
+
+# set of 21 Mut-driver genes
+mat_gene <- c("PIK3CA","AKT1","PTEN","PIK3R1","FOXO3", "RB1", "KMT2C", "ARID1A","NCOR1","CTCF", "TP53", "MAP3K1", "NF1","CDH1","GATA3","TBX3","CBFB","RUNX1","ERBB2","USP9X","SF3B1")
+
+# create an empty matrix 
+mat_asso <- matrix(data=NA, nrow = length(mat_gene), ncol = length(mat_gene))
+colnames(mat_asso) <- mat_gene
+rownames(mat_asso) <- mat_gene
+
+# fill in the cells with log odds ratio for each pairwise association test
+for(i in mat_gene){
+  for(j in mat_gene){
+    mat_asso[i,j] <- fisher.test(mat[i,],mat[j,])$estimate %>% log()
+  }
+
+}
+
+# get rid of a triangular half of the matirx
+mat_asso[upper.tri(mat_asso, diag = T)] <- 0
+
+
+ggplot(melt(mat_asso), aes(Var1,Var2)) +
+  geom_tile(aes(fill=value), colour="white") +
+  scale_fill_gradient2(low = "#7c4d91", high = "#5e8761",mid = "white", limits = c(-2,2)) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.line.y = element_blank()) +
+  coord_flip()
+
+
+```
+

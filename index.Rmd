@@ -1,9 +1,15 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAME HERE"
+title: "Exploratory data analysis for cancer biologists"
+author: "A M Mahedi Hasan"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+biblio-style: apalike
+link-citations: yes
+github-repo: AMMHasan/Exploratory_data_analysis_for_cancer_biologists
+description: "This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using *R* (statistical-) programming language in their MSc projects."
 ---
 
-# Down the rabbit-hole
 
+This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using *R* (statistical-) programming language in their MSc projects. I would appreciate if you participate in this pre-course [**survey**]() (once again) so that I know of your expectation from today's workshop.

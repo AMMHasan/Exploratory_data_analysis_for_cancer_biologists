@@ -1,0 +1,612 @@
+# Data manipulation using `dplyr`
+
+Trust me, this is the part of my research where I spend a significant portion of my time. Real-life data are not polished and nicely annotated. Moreover, when you want to integrate data from different sources, the fun begins (I am showing the quotation finger, of course)! Moreover, you need to format the output from one process and make it worthy for the next one. So, there's no escape from formatting / manipulating data in real-life.
+
+Here, we will be using the `dplyr` package which is one of the most powerful and popular packages in *R*. The `d` here stands for data and `plyr` is supposed to be the tool plier. Therefore, `dplyr` packages refers to a tool to manipulate data(-frame). `dplyr` provides a `grammar` of data manipulation and the functions it provides are regarded as the `verbs` in the code and are very efficient ones in solving most common data manipulation problems. It is sometimes arguably more efficient than the base *R* operations.
+
+## Install
+
+There are mainly two ways to install `dplyr` package in *R*. You can install the `tidyverse` package and `dplyr`, being a part of it, will automatically be installed in your *R* environment. 
+
+```{r install_dplyr_option1, eval=FALSE}
+install.packages("tidyverse")
+```
+
+Or, you can install just the `dplyr` package by -
+
+```{r install_dplyr_option2, eval=FALSE}
+install.packages("dplyr")
+```
+
+However, if you want to install the development version, which I won't recommend at this stage, you can follow the codes below -
+```{r install_dplyr_option3, , eval=FALSE}
+if (packageVersion("devtools") < 1.6) {
+  install.packages("devtools")
+}
+devtools::install_github("hadley/lazyeval")
+devtools::install_github("hadley/dplyr")
+
+```
+
+And, now load it ...
+
+```{r load_dplyr, message=F, warning=F}
+library(dplyr)
+```
+
+
+## Pipe operator %>% 
+
+It will be a crime not to introduce the pipe operator `%>%` to you before starting with `dplyr` verbs. If you are familiar with the pipe operator `|` in bash scripting, that's it. I have no better way to describe it to you. But, if you are not, then here is the thing for you -
+
+The pipe operator `%>%` connects two operations on the same data (be it a vector or a data-frame). It passes the output from the left-hand side operation of it as the first argument to the right-hand side operation. If you want a formal definition: 
+`x %>% f(y)` is converted into `f(x,y)` by using the pipe operator. 
+
+Let's look at a example. Say, we have a vector `x` that holds value from 1 to 100 and we want to calculate the `mean` of `x` and make it `round` to an integer, we write in base *R* -
+```{r pipe_operator1}
+x <- 1:100
+round(mean(x))
+```
+On the other hand, using the pipe operator, we can first define the `x` and then calculate the `mean` and, at the end, `round` it to an integer, like -
+
+```{r pipe_operator2}
+x <- 1:100
+x %>% mean %>% round
+```
+
+It goes from left to right as we think and build our data analysis pipeline. The new version of `dplyr` also supports `|>` as the pipe operator, but I will stick to `%>%` in the workshop. 
+
+
+## dplyr verbs
+
+There are many verbs embedded in the `dplyr` package. Here I will be discussing a few (but very important ones) that you will need to resolve most of the data manipulation challenges in your day-to-day life. 
+
+### select()
+
+`select()` picks variables based on their names or types. For example -
+```{r select1_1, message=F, warning=F, results='hide'}
+# using specific variable names -
+iris %>% 
+  select(Sepal.Length, Sepal.Width) 
+```
+
+```{r select1_kable1, message=FALSE, warning=F, echo=FALSE}
+library(kableExtra)
+# using specific variable names -
+iris %>% 
+  select(Sepal.Length, Sepal.Width) %>% 
+  kable(align = "lccrr", caption = "iris data: Sepal length and width") %>% kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>% scroll_box(width = "100%", height = "200px")
+```
+
+```{r select1_2, message=F, warning=F, results='hide'}
+# using type -
+iris %>% 
+  select(is.numeric)
+```
+
+```{r select1_kable2, message=FALSE, warning=F, echo=FALSE}
+# using type -
+iris %>% select(is.numeric) %>% 
+  kable(align = "lccrr",caption = "iris data: neumeric columns only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br>
+With the verb `select()`, comes some *selection helpers* -
+
+If you want to select all the variables, you can use `everything()`
+
+```{r select2, message=F, warning=F, results='hide'}
+iris %>% 
+  select(everything())
+```
+
+```{r select2_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% select(everything()) %>% 
+  kable(align = "lccrr",caption = "iris data: everything") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br>
+You can choose the last column using `last_col()` or only columns that are grouped using `group_cols()` (You will understand better when I  discuss the `group_by()` verb later).
+
+```{r select_3_1, message=F, warning=F, results='hide'}
+# select the last column
+iris %>% 
+  select(last_col())
+```
+
+```{r select3_kable1, message=FALSE, warning=F, echo=FALSE}
+iris %>% select(last_col()) %>% 
+  kable(align = "lccrr",caption = "iris data: last_col()") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r select3_2, message=F, warning=F, results='hide'}
+# select the grouped column(s)
+iris %>% 
+  group_by(Sepal.Length,Sepal.Width) %>% 
+  select(group_cols())
+```
+
+```{r select3_kable2, message=FALSE, warning=F, echo=FALSE}
+iris %>% group_by(Sepal.Length,Sepal.Width) %>% select(group_cols()) %>% 
+  kable(align = "lccrr",caption = "iris data: select grouped columns") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br>
+If there's a common prefix or suffix to some column names, you can utilise that by using selection helpers `starts_with()` or `ends_with()`, respectively -
+
+```{r select4_1, message=F, warning=F, results='hide'}
+# starts_with()
+iris %>% 
+  select(starts_with("Sepal"))
+```
+
+```{r select4_kable1, message=FALSE, warning=F, echo=FALSE}
+iris %>% select(starts_with("Sepal")) %>% 
+  kable(align = "lccrr",caption = "iris data: columns starts with Sepal") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r select4_2, message=F, warning=F, results='hide'}
+# ends_with()
+iris %>% 
+  select(ends_with("Length"))
+```
+
+```{r select4_kable2, message=FALSE, warning=F, echo=FALSE}
+iris %>% select(ends_with("Length")) %>% 
+  kable(align = "lccrr",caption = "iris data: columns ends with Length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br>
+Even, an internal pattern can be used to select a column by using `contains()` -
+```{r select5, message=F, warning=F, results='hide'}
+iris %>% 
+  select(contains("dth"))
+```
+
+```{r select5_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% select(contains("dth")) %>% 
+  kable(align = "lccrr",caption = "iris data: column names containing 'dth'") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br>
+Even, you can use regular expression to select a column by using `matches()` -
+```{r select6, message=F, warning=F, results='hide'}
+# column name containing either W or d or both
+iris %>% 
+  select(matches("[Wd]"))
+```
+
+```{r select6_kable, message=FALSE, warning=F, echo=FALSE}
+# column name containing either W or d or both
+iris %>% select(matches("[Wd]")) %>% 
+  kable(align = "lccrr",caption = "iris data: column name containing W or d") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+### filter()
+
+The `filter()` verb is used to subset a data-frame based on one or more conditions imposed on the column(s). Only the elements (along the column) that satisfy the condition(s) remain and others get filtered out. There are some functions and operators that you should know while dealing with `filter()` verb, like -
+
+```
+==, >, <, >=, <=
+&, |,  !
+is.na()
+%in%
+```
+
+Let's see some examples -
+```{r filter1, message=F, warning=F, results='hide'}
+
+# choose the rows whose Petal.Width is greater than 2
+iris %>% 
+  filter(Petal.Width > 2)
+```
+
+```{r filter1_kable, message=FALSE, warning=F, echo=FALSE}
+# choose the rows whose Petal.Width is greater than 2
+iris %>% filter(Petal.Width > 2) %>% 
+  kable(align = "lccrr",caption = "iris data: Petal width creater than 2") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r filter2, message=F, warning=F, results='hide'}
+# choose the rows for setosa Species
+iris %>% 
+  filter(Species == "setosa")
+  # filter(Species %in% "setosa")
+```
+
+```{r filter2_kable, message=FALSE, warning=F, echo=FALSE}
+# choose the rows for setosa Species
+iris %>% filter(Species == "setosa") %>% 
+  kable(align = "lccrr",caption = "iris data: setosa only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r filter3, message=F, warning=F, results='hide'}
+
+# or even the opposite is True
+iris %>% filter(Species != "setosa")
+```
+
+```{r filter3_kable, message=FALSE, warning=F, echo=FALSE}
+# or even the opposite is True
+iris %>% filter(Species != "setosa") %>% 
+  kable(align = "lccrr",caption = "iris data: without setosa") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+### mutate()
+
+The verb `mutate()` creates new columns and often the element of the new column can be functions of the existing variables (i.e. columns).
+
+```{r mutate, message=F, warning=F, results='hide'}
+iris %>% 
+  mutate(Length_difference = Sepal.Length - Petal.Length) # not that the new column here make much sense
+```
+
+```{r mutate_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% mutate(Length_difference = Sepal.Length - Petal.Length) %>% # not that the new column here make much sense
+  kable(align = "lccrr",caption = "iris data: new column added") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r transmute, message=F, warning=F, results='hide'}
+# To keep only the newly created column, use transmute()
+iris %>% 
+  transmute(Length_difference = Sepal.Length - Petal.Length)
+```
+
+```{r transmute_kable, message=FALSE, warning=F, echo=FALSE}
+# To keep only the newly created column, use transmute()
+iris %>% transmute(Length_difference = Sepal.Length - Petal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: new column only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br>
+Interestingly, setting the value of an existing column to `NULL` inside mutate deletes the column.
+
+
+
+### rename()
+
+As the name suggests, `rename()` verb changes the name of an existing column. The syntax is `<new_name> = <old_name>`. Example -
+```{r rename1, message=F, warning=F, results='hide'}
+iris %>% 
+  rename(Species.name=Species) 
+```
+
+```{r rename1_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% rename(Species.name=Species) %>% 
+  kable(align = "lccrr",caption = "iris data: Species column renamed") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br>
+Interestingly, you can change the name of a column while selecting using `select()` verb -
+
+```{r rename2, message=F, warning=F, results='hide'}
+iris %>% select(Sepal.Length, 
+                Sepal.Width, 
+                Petal.Length, 
+                Petal.Width, 
+                Species.name=Species)
+```
+
+```{r rename2_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% select(Sepal.Length, 
+                Sepal.Width, 
+                Petal.Length, 
+                Petal.Width, 
+                Species.name=Species) %>% 
+  kable(align = "lccrr",caption = "iris data: Species column renamed using select()") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+
+### arrange()
+
+The verb `arrange()` arranges or orders the rows of a data-frame by the values of selected column(s), like -
+
+```{r arrange1, message=F, warning=F, results='hide'}
+iris %>% 
+  arrange(Sepal.Length)
+```
+
+```{r arrange1_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% arrange(Sepal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: arranged by Sepal length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r arrange2, message=F, warning=F, results='hide'}
+# After arranging the data-frame by Sepal.Length, for a distinct Sepal.Length, the Sepal.Width is arrange and so as the rest of the data-frame with it.
+iris %>% 
+  arrange(Sepal.Length,Sepal.Width)
+```
+
+```{r arrange2_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% arrange(Sepal.Length,Sepal.Width) %>% 
+  kable(align = "lccrr",caption = "iris data: arranged by Sepal length and width") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+### distinct()
+
+The `distinct()` verb retains only the unique/distinct rows from a data-frame given the column(s) selected and returns only the select column(s) (if not the `.keep_all` parameter is change from it's default value `FALSE` to `TRUE`). Let's see some examples -
+
+```{r distinct1, message=F, warning=F, results='hide'}
+iris %>% distinct(Sepal.Length)
+```
+
+```{r distinct1_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% distinct(Sepal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: distinct Sepal length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r distinct2, message=F, warning=F, results='hide'}
+# here only the unique combinations of Sepal.Length and Sepal.Width are kept.
+iris %>% distinct(Sepal.Length,Sepal.Width) 
+```
+
+```{r distinct2_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% distinct(Sepal.Length,Sepal.Width) %>% 
+  kable(align = "lccrr",caption = "iris data: distinct Sepal length and width only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r distinct3, message=F, warning=F, results='hide'}
+# rest of the columns are also returned.
+iris %>% 
+  distinct(Sepal.Length,Sepal.Width, .keep_all = T)
+
+```
+
+```{r distinct3_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% distinct(Sepal.Length,Sepal.Width, .keep_all = T) %>% 
+  kable(align = "lccrr",caption = "iris data: distinct Sepal length and width only") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+```
+
+### slice()
+
+The `slice()` verb lets you index rows by their (integer) locations. It has some helpers too -
+
+
++ `slice_head()` selects the first row, while `slice_tail()` selects the last. The same can be done using `slice(1)` and `slice(n())`.
+
++ `slice_head(<int>)` selects from the first to the `<int>th` row, while `slice_tail(<int>)` selects from `<int>th` to the last row up to the end row.
+
++ `slice_sample()` selects rows at random.
+
++ `slice_min()` and `slice_max()` helper selects rows with the lowest and the highest value of the selected variable. 
+
+Few examples -
+
+```{r slice1, message=F, warning=F, results='hide'}
+iris %>% 
+  slice(1)
+```
+
+```{r slice1_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% slice(1) %>% 
+  kable(align = "lccrr",caption = "iris data: a random row") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r slice2, message=F, warning=F, results='hide'}
+iris %>% 
+  slice(10:n()) 
+```
+
+```{r slice2_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% slice(10:n()) %>% 
+  kable(align = "lccrr",caption = "iris data: from 10th row to the end") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r slice3, message=F, warning=F, results='hide'}
+iris %>% 
+  slice_min( Sepal.Length)
+```
+
+```{r slice3_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% slice_min( Sepal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: row with the lowest sepal length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+### join
+
+A disclaimer: *there's no verb (exactly) called* `join()` *in dplyr (at least, to date).* However, there are two types of join verbs - 
+
+* `inner_join()` and 
+
+* `outer_join` (which is also not a verb, but a class of three verbs): 
+
+  + `left_join()`, 
+
+  + `right_join()` and 
+
+  + `full_join()`. 
+  
+Join verbs joins columns from two different data-frames based on a common *key* column.
+
+`inner_join()` verb joins two data-frame and retains the rows where the keys match. This means that there is a potential loss of observations that we may not appreciate in the real-life analysis.
+
+On the other hand, if we have two data-frames `x` and `y`, the `left_join()` verb matches the keys from `x` and `y`, while keeps all the rows from `x` and joins the matched rows (based on the *key* column) from `y`. The empty cells (if any) are filled with `NA` values. For `right_join()` verb, is the opposite scenario. On the other hand, the `full_join()` verb retains all the rows from both data-frames and empty cells are filled with `NA` values. Let's clear the concept with some examples -
+
+```{r join1, message=F, warning=F, results='hide'}
+x <- iris %>% 
+  select(Sepal.Length,Sepal.Width,Species) %>% 
+  filter(Species %in% c("setosa", "versicolor")) %>% 
+  slice_sample(n=10)
+
+y <- iris %>% 
+  select(Petal.Length,Petal.Width,Species) %>% 
+  filter(Species %in% c("versicolor", "virginica")) %>% 
+  slice_sample(n=10)
+
+x %>% 
+  inner_join(y, by = "Species")
+```
+
+```{r join1_kable, message=FALSE, warning=F, echo=FALSE}
+x %>% inner_join(y, by = "Species") %>% 
+  kable(align = "lccrr",caption = "iris data: inner_join") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+
+```{r join2, message=F, warning=F, results='hide'}
+x %>% 
+  left_join(y, by = "Species")
+```
+
+```{r join2_kable, message=FALSE, warning=F, echo=FALSE}
+x %>% left_join(y, by = "Species") %>% 
+  kable(align = "lccrr",caption = "iris data: left_join") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r join3, message=F, warning=F, results='hide'}
+x %>% 
+  right_join(y, by = "Species")
+```
+
+```{r join3_kable, message=FALSE, warning=F, echo=FALSE}
+x %>% right_join(y, by = "Species") %>% 
+  kable(align = "lccrr",caption = "iris data: right_join") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r join4, message=F, warning=F, results='hide'}
+x %>% 
+  full_join(y, by = "Species")
+
+```
+
+```{r join4_kable, message=FALSE, warning=F, echo=FALSE}
+x %>% full_join(y, by = "Species") %>% 
+  kable(align = "lccrr",caption = "iris data: full_join") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+```
+
+### group_by() and summarise()
+
+I will be describing `group_by()` and `summarise()` verbs together to show the effect of the former. `group_by()` is the most important grouping verb in `dplyr`. It takes one or more variables of the data-frame to group by -
+
+```{r group_by1, message=F, warning=F, results='hide'}
+iris %>% 
+  group_by(Species)
+```
+
+```{r group_by1_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% group_by(Species) %>% 
+  kable(align = "lccrr",caption = "iris data: group_by Species") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br>
+Rather than some messages on the *R* Console, you don't see any change in the structure of the iris data-frame yet. Let's select Sepal.Length and see the effect -
+
+```{r group_by2, message=F, warning=F, results='hide'}
+iris %>% 
+  group_by(Species) %>% 
+  select(Sepal.Length) 
+```
+
+```{r group_by2_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% group_by(Species) %>% select(Sepal.Length) %>% 
+  kable(align = "lccrr",caption = "iris data: group by Species and selected by Sepal length") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br>
+Though I selected only the `Sepal.Length`, the Species column also appears. Yes, that's because we applied the `group_by()` verb beforehand. But the most dramatic effect can be seen in conjunction with the `summarise()` verb. 
+
+`summarise()` generates a new data-frame and returns one row (with the result of course) for each combination of grouping variables. In the case of no grouping variables, the output has a single row summarising all observations in the input. Now, let's see the effect of `group_by()` in conjunction with `summarise()` verb -
+
+```{r summarise1, message=F, warning=F, results='hide'}
+iris %>% 
+  group_by(Species) %>% 
+  select(Sepal.Length) %>% 
+  summarise(count=n())
+```
+
+```{r summarise1_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% 
+  group_by(Species) %>% 
+  select(Sepal.Length) %>% 
+  summarise(count=n()) %>% 
+  kable(align = "lccrr",caption = "iris data: summarised count by Species") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r summarise2, message=F, warning=F, results='hide'}
+iris %>% 
+  group_by(Species) %>% 
+  select(Sepal.Length) %>% 
+  summarise(mean_Sepal_length=mean(Sepal.Length))
+```
+
+```{r summarise2_kable, message=FALSE, warning=F, echo=FALSE}
+iris %>% 
+  group_by(Species) %>% 
+  select(Sepal.Length) %>% 
+  summarise(mean_Sepal_length=mean(Sepal.Length)) %>% 
+  kable(align = "lccrr",caption = "iris data: Summarised mean Sepal length by Species") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+```{r summarise3, message=F, warning=F, results='hide'}
+# However, without any grouping -
+iris %>% 
+  select(Sepal.Length) %>% 
+  summarise(mean_Sepal_length=mean(Sepal.Length))
+```
+
+```{r summarise3_kable, message=FALSE, warning=F, echo=FALSE}
+# as being told, without any grouping -
+iris %>% 
+  select(Sepal.Length) %>% 
+  summarise(mean_Sepal_length=mean(Sepal.Length)) %>% 
+  kable(align = "lccrr",caption = "iris data: summarised mean Sepal length without grouping") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+```
+

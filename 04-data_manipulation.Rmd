@@ -195,7 +195,7 @@ iris %>% select(matches("[Wd]")) %>%
 
 ### filter()
 
-The `filter()` verb is used to subset a data-frame based on one or more conditions imposed on the column(s). Only the elements (along the column) that satisfy the condition(s) remain and others get filtered out. There are some functions and operators that you should know while dealing with `filter()` verb, like -
+The `filter()` verb is used to subset a data-frame based on one or more conditions imposed on the row(s). Only the elements (along the column) that satisfy the condition(s) remain and others (along with the whole row) get filtered out. There are some functions and operators that you should know while dealing with `filter()` verb, like -
 
 ```
 ==, >, <, >=, <=
@@ -599,12 +599,53 @@ iris %>%
   summarise(mean_Sepal_length=mean(Sepal.Length))
 ```
 
-```{r summarise3_kable, message=FALSE, warning=F, echo=FALSE}
+```{r summarise3.kable, message=FALSE, warning=F, echo=FALSE}
 # as being told, without any grouping -
 iris %>% 
   select(Sepal.Length) %>% 
   summarise(mean_Sepal_length=mean(Sepal.Length)) %>% 
   kable(align = "lccrr",caption = "iris data: summarised mean Sepal length without grouping") %>% 
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+```
+
+## Exercise
+
+Now, it's time for a mini exercise:
+
+1. Install the package called `gapminder`. You will find a dataset called *gapminder*. For each continent, calculate the mean of `life expectancy at birth` for people whose data were collected after 2002 (not inclusive). The answer will look like below -
+
+
+
+
+```{r exercise1, message=FALSE, warning=F, echo=FALSE}
+# install.packages("gapminder")
+# library(gapminder)
+
+gapminder::gapminder %>% 
+  filter(year > 2000) %>%  
+  group_by(continent) %>%   
+  select(country, year, lifeExp) %>% 
+  summarise(mean_LE = mean(lifeExp)) %>% arrange(desc(mean_LE)) %>% 
+  kable(align = "lccrr",caption = "gapminder data: summarised mean of life expectancy by continent") %>%
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
+  scroll_box(width = "100%", height = "200px")
+
+
+```
+
+2. Do the same for each country (instead of continent) and print the top 10 countries by `life expectancy at birth`. The result will look like this -
+
+```{r exercise2, message=FALSE, warning=F, echo=FALSE}
+gapminder::gapminder %>% 
+  filter(year > 2000) %>%  
+  group_by(country) %>%   
+  select(country, year, lifeExp) %>% 
+  summarise(mean_LE = mean(lifeExp)) %>% 
+  arrange(desc(mean_LE)) %>% 
+  slice_head(n=10) %>%
+  kable(align = "lccrr",caption = "gapminder data: summarised mean of life expectancy of top 10 countries") %>%
   kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed")) %>%
   scroll_box(width = "100%", height = "200px")
 

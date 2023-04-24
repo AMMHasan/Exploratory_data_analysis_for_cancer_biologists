@@ -156,6 +156,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3.8" data-path="data-manipulation-using-dplyr.html"><a href="data-manipulation-using-dplyr.html#join"><i class="fa fa-check"></i><b>2.3.8</b> join</a></li>
 <li class="chapter" data-level="2.3.9" data-path="data-manipulation-using-dplyr.html"><a href="data-manipulation-using-dplyr.html#group_by-and-summarise"><i class="fa fa-check"></i><b>2.3.9</b> group_by() and summarise()</a></li>
 </ul></li>
+<li class="chapter" data-level="2.4" data-path="data-manipulation-using-dplyr.html"><a href="data-manipulation-using-dplyr.html#exercise"><i class="fa fa-check"></i><b>2.4</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="plotting-using-ggplot2.html"><a href="plotting-using-ggplot2.html"><i class="fa fa-check"></i><b>3</b> Plotting using <code>ggplot2</code></a>
 <ul>
@@ -165,8 +166,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="plotting-using-ggplot2.html"><a href="plotting-using-ggplot2.html#difference-between-base-r-plot-and-ggplot2"><i class="fa fa-check"></i><b>3.3.1</b> Difference between base <em>R</em> plot and ggplot2</a></li>
 <li class="chapter" data-level="3.3.2" data-path="plotting-using-ggplot2.html"><a href="plotting-using-ggplot2.html#general-parameters-for-ggplot"><i class="fa fa-check"></i><b>3.3.2</b> General parameters for ggplot()</a></li>
-<li class="chapter" data-level="3.3.3" data-path="plotting-using-ggplot2.html"><a href="plotting-using-ggplot2.html#the-rest-of-the-exercise-is-a-copy-of-the-top-50-ggplot2-visualizations---the-master-list-with-full-r-code."><i class="fa fa-check"></i><b>3.3.3</b> The rest of the exercise is a copy of the “Top 50 ggplot2 Visualizations - The Master List (With Full R Code)”.</a></li>
 </ul></li>
+<li class="chapter" data-level="3.4" data-path="plotting-using-ggplot2.html"><a href="plotting-using-ggplot2.html#plotting-exercise"><i class="fa fa-check"></i><b>3.4</b> Plotting exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="metabric-data-analysis.html"><a href="metabric-data-analysis.html"><i class="fa fa-check"></i><b>4</b> Metabric data analysis</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -13052,7 +13053,7 @@ Petal.Width
 </div>
 <div id="filter" class="section level3 hasAnchor" number="2.3.2">
 <h3><span class="header-section-number">2.3.2</span> filter()<a href="data-manipulation-using-dplyr.html#filter" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The <code>filter()</code> verb is used to subset a data-frame based on one or more conditions imposed on the column(s). Only the elements (along the column) that satisfy the condition(s) remain and others get filtered out. There are some functions and operators that you should know while dealing with <code>filter()</code> verb, like -</p>
+<p>The <code>filter()</code> verb is used to subset a data-frame based on one or more conditions imposed on the row(s). Only the elements (along the column) that satisfy the condition(s) remain and others (along with the whole row) get filtered out. There are some functions and operators that you should know while dealing with <code>filter()</code> verb, like -</p>
 <pre><code>==, &gt;, &lt;, &gt;=, &lt;=
 &amp;, |,  !
 is.na()
@@ -35994,27 +35995,61 @@ Petal.Width
 <tbody>
 <tr>
 <td style="text-align:left;">
-5.7
+5.8
 </td>
 <td style="text-align:center;">
-3.0
+2.6
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
+3.9
 </td>
 <td style="text-align:right;">
-1.8
+1.1
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.7
+5.8
 </td>
 <td style="text-align:center;">
-3.0
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36023,32 +36058,66 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.7
+5.8
 </td>
 <td style="text-align:center;">
-3.0
+2.6
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.7
+5.2
 </td>
 <td style="text-align:center;">
-3.0
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36071,10 +36140,10 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
+4.7
 </td>
 <td style="text-align:right;">
-1.8
+1.4
 </td>
 </tr>
 <tr>
@@ -36088,103 +36157,52 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.7
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.2
+6.4
 </td>
 <td style="text-align:center;">
-2.7
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+3.9
 </td>
 <td style="text-align:right;">
-1.2
+1.1
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.2
+6.4
 </td>
 <td style="text-align:center;">
-2.7
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.5
+4.0
 </td>
 <td style="text-align:right;">
-1.5
+1.3
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+6.4
 </td>
 <td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.7
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.2
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36201,24 +36219,7 @@ versicolor
 6.4
 </td>
 <td style="text-align:center;">
-3.2
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6.4
-</td>
-<td style="text-align:center;">
-3.2
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36227,7 +36228,7 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
@@ -36235,24 +36236,143 @@ versicolor
 6.4
 </td>
 <td style="text-align:center;">
-3.2
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-6.4
+6.1
 </td>
 <td style="text-align:center;">
-3.2
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+2.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+2.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+2.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36275,27 +36395,10 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
@@ -36309,18 +36412,52 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+5.6
 </td>
 <td style="text-align:center;">
-2.4
+2.5
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:center;">
+2.5
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:center;">
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36337,24 +36474,7 @@ versicolor
 5.6
 </td>
 <td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.6
-</td>
-<td style="text-align:center;">
-2.7
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36363,7 +36483,7 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
@@ -36371,24 +36491,58 @@ versicolor
 5.6
 </td>
 <td style="text-align:center;">
-2.7
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.6
+6.0
 </td>
 <td style="text-align:center;">
-2.7
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36398,6 +36552,40 @@ versicolor
 </td>
 <td style="text-align:right;">
 1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
 </td>
 </tr>
 </tbody>
@@ -36432,147 +36620,300 @@ Petal.Width
 <tbody>
 <tr>
 <td style="text-align:left;">
-5.7
+4.4
 </td>
 <td style="text-align:center;">
-3.0
+3.2
+</td>
+<td style="text-align:center;">
+setosa
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+3.5
+</td>
+<td style="text-align:center;">
+setosa
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.7
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.7
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.7
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.2
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.7
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.5
-</td>
-<td style="text-align:right;">
-1.5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.2
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.2
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.7
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.2
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.2
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.2
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.5
-</td>
-<td style="text-align:right;">
-1.5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.4
-</td>
-<td style="text-align:center;">
 3.9
 </td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4.8
+</td>
+<td style="text-align:center;">
+3.0
+</td>
 <td style="text-align:center;">
 setosa
 </td>
@@ -36585,27 +36926,61 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+6.1
 </td>
 <td style="text-align:center;">
-2.4
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
+3.9
 </td>
 <td style="text-align:right;">
-1.8
+1.1
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+6.1
 </td>
 <td style="text-align:center;">
-2.4
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36614,7 +36989,24 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
 </td>
 </tr>
 <tr>
@@ -36628,10 +37020,27 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+3.9
 </td>
 <td style="text-align:right;">
-1.2
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+2.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
 </td>
 </tr>
 <tr>
@@ -36653,27 +37062,10 @@ versicolor
 </tr>
 <tr>
 <td style="text-align:left;">
-6.4
+5.5
 </td>
 <td style="text-align:center;">
-3.2
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6.4
-</td>
-<td style="text-align:center;">
-3.2
+2.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36682,32 +37074,66 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-6.4
+5.5
 </td>
 <td style="text-align:center;">
-3.2
+2.4
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-6.4
+5.6
 </td>
 <td style="text-align:center;">
-3.2
+2.5
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:center;">
+2.5
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:center;">
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36721,61 +37147,10 @@ versicolor
 </tr>
 <tr>
 <td style="text-align:left;">
-5.1
+5.6
 </td>
 <td style="text-align:center;">
-3.3
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4.8
-</td>
-<td style="text-align:center;">
-3.1
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36784,32 +37159,66 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+5.6
 </td>
 <td style="text-align:center;">
-2.4
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+6.0
 </td>
 <td style="text-align:center;">
-2.4
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36823,44 +37232,10 @@ versicolor
 </tr>
 <tr>
 <td style="text-align:left;">
-5.3
+6.0
 </td>
 <td style="text-align:center;">
-3.7
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.6
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.6
-</td>
-<td style="text-align:center;">
-2.7
+3.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36869,41 +37244,24 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.6
+6.0
 </td>
 <td style="text-align:center;">
-2.7
+3.4
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.6
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.5
-</td>
-<td style="text-align:right;">
-1.5
+1.4
 </td>
 </tr>
 </tbody>
@@ -36938,27 +37296,61 @@ Petal.Width
 <tbody>
 <tr>
 <td style="text-align:left;">
-5.7
+5.8
 </td>
 <td style="text-align:center;">
-3.0
+2.6
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
+3.9
 </td>
 <td style="text-align:right;">
-1.8
+1.1
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.7
+5.8
 </td>
 <td style="text-align:center;">
-3.0
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
 </td>
 <td style="text-align:center;">
 versicolor
@@ -36967,32 +37359,66 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.7
+5.8
 </td>
 <td style="text-align:center;">
-3.0
+2.6
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.7
+5.2
 </td>
 <td style="text-align:center;">
-3.0
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37015,10 +37441,10 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
+4.7
 </td>
 <td style="text-align:right;">
-1.8
+1.4
 </td>
 </tr>
 <tr>
@@ -37032,103 +37458,52 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.7
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.2
+6.4
 </td>
 <td style="text-align:center;">
-2.7
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+3.9
 </td>
 <td style="text-align:right;">
-1.2
+1.1
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.2
+6.4
 </td>
 <td style="text-align:center;">
-2.7
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.5
+4.0
 </td>
 <td style="text-align:right;">
-1.5
+1.3
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+6.4
 </td>
 <td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.7
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.2
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37145,24 +37520,7 @@ versicolor
 6.4
 </td>
 <td style="text-align:center;">
-3.2
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6.4
-</td>
-<td style="text-align:center;">
-3.2
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37171,7 +37529,7 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
@@ -37179,24 +37537,143 @@ versicolor
 6.4
 </td>
 <td style="text-align:center;">
-3.2
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-6.4
+6.1
 </td>
 <td style="text-align:center;">
-3.2
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+2.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+2.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+2.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37219,27 +37696,10 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
@@ -37253,18 +37713,52 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+5.6
 </td>
 <td style="text-align:center;">
-2.4
+2.5
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:center;">
+2.5
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:center;">
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37281,24 +37775,7 @@ versicolor
 5.6
 </td>
 <td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.6
-</td>
-<td style="text-align:center;">
-2.7
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37307,7 +37784,7 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
@@ -37315,24 +37792,58 @@ versicolor
 5.6
 </td>
 <td style="text-align:center;">
-2.7
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.6
+6.0
 </td>
 <td style="text-align:center;">
-2.7
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37342,6 +37853,40 @@ versicolor
 </td>
 <td style="text-align:right;">
 1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
 </td>
 </tr>
 <tr>
@@ -37355,7 +37900,7 @@ NA
 virginica
 </td>
 <td style="text-align:right;">
-5.9
+5.7
 </td>
 <td style="text-align:right;">
 2.3
@@ -37372,10 +37917,10 @@ NA
 virginica
 </td>
 <td style="text-align:right;">
-5.0
+5.6
 </td>
 <td style="text-align:right;">
-1.9
+1.4
 </td>
 </tr>
 <tr>
@@ -37389,7 +37934,24 @@ NA
 virginica
 </td>
 <td style="text-align:right;">
-5.1
+4.8
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+virginica
+</td>
+<td style="text-align:right;">
+6.1
 </td>
 <td style="text-align:right;">
 2.3
@@ -37406,44 +37968,10 @@ NA
 virginica
 </td>
 <td style="text-align:right;">
-5.4
+5.6
 </td>
 <td style="text-align:right;">
-2.1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:center;">
-NA
-</td>
-<td style="text-align:center;">
-virginica
-</td>
-<td style="text-align:right;">
-5.1
-</td>
-<td style="text-align:right;">
-2.0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:center;">
-NA
-</td>
-<td style="text-align:center;">
-virginica
-</td>
-<td style="text-align:right;">
-6.7
-</td>
-<td style="text-align:right;">
-2.2
+2.4
 </td>
 </tr>
 </tbody>
@@ -37478,147 +38006,300 @@ Petal.Width
 <tbody>
 <tr>
 <td style="text-align:left;">
-5.7
+4.4
 </td>
 <td style="text-align:center;">
-3.0
+3.2
+</td>
+<td style="text-align:center;">
+setosa
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+3.5
+</td>
+<td style="text-align:center;">
+setosa
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.7
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.7
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.7
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.2
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.7
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.5
-</td>
-<td style="text-align:right;">
-1.5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.2
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.2
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.7
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.2
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.2
-</td>
-<td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.2
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.5
-</td>
-<td style="text-align:right;">
-1.5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.4
-</td>
-<td style="text-align:center;">
 3.9
 </td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.8
+</td>
+<td style="text-align:center;">
+2.6
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.2
+</td>
+<td style="text-align:center;">
+2.7
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.4
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4.8
+</td>
+<td style="text-align:center;">
+3.0
+</td>
 <td style="text-align:center;">
 setosa
 </td>
@@ -37631,27 +38312,61 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+6.1
 </td>
 <td style="text-align:center;">
-2.4
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.8
+3.9
 </td>
 <td style="text-align:right;">
-1.8
+1.1
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+6.1
 </td>
 <td style="text-align:center;">
-2.4
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37660,7 +38375,24 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:center;">
+2.9
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.4
 </td>
 </tr>
 <tr>
@@ -37674,10 +38406,27 @@ versicolor
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+3.9
 </td>
 <td style="text-align:right;">
-1.2
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.5
+</td>
+<td style="text-align:center;">
+2.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
 </td>
 </tr>
 <tr>
@@ -37699,27 +38448,10 @@ versicolor
 </tr>
 <tr>
 <td style="text-align:left;">
-6.4
+5.5
 </td>
 <td style="text-align:center;">
-3.2
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6.4
-</td>
-<td style="text-align:center;">
-3.2
+2.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37728,32 +38460,66 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-6.4
+5.5
 </td>
 <td style="text-align:center;">
-3.2
+2.4
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-6.4
+5.6
 </td>
 <td style="text-align:center;">
-3.2
+2.5
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:center;">
+2.5
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:center;">
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37767,61 +38533,10 @@ versicolor
 </tr>
 <tr>
 <td style="text-align:left;">
-5.1
+5.6
 </td>
 <td style="text-align:center;">
-3.3
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4.8
-</td>
-<td style="text-align:center;">
-3.1
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.5
-</td>
-<td style="text-align:center;">
-2.4
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37830,32 +38545,66 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+5.6
 </td>
 <td style="text-align:center;">
-2.4
+2.5
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.5
+6.0
 </td>
 <td style="text-align:center;">
-2.4
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
+</td>
+<td style="text-align:center;">
+versicolor
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.0
+</td>
+<td style="text-align:center;">
+3.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37869,44 +38618,10 @@ versicolor
 </tr>
 <tr>
 <td style="text-align:left;">
-5.3
+6.0
 </td>
 <td style="text-align:center;">
-3.7
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.6
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-1.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.6
-</td>
-<td style="text-align:center;">
-2.7
+3.4
 </td>
 <td style="text-align:center;">
 versicolor
@@ -37915,41 +38630,24 @@ versicolor
 4.7
 </td>
 <td style="text-align:right;">
-1.2
+1.4
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5.6
+6.0
 </td>
 <td style="text-align:center;">
-2.7
+3.4
 </td>
 <td style="text-align:center;">
 versicolor
 </td>
 <td style="text-align:right;">
-4.2
+4.6
 </td>
 <td style="text-align:right;">
-1.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5.6
-</td>
-<td style="text-align:center;">
-2.7
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:right;">
-4.5
-</td>
-<td style="text-align:right;">
-1.5
+1.4
 </td>
 </tr>
 <tr>
@@ -37963,7 +38661,7 @@ NA
 virginica
 </td>
 <td style="text-align:right;">
-5.9
+5.7
 </td>
 <td style="text-align:right;">
 2.3
@@ -37980,10 +38678,10 @@ NA
 virginica
 </td>
 <td style="text-align:right;">
-5.0
+5.6
 </td>
 <td style="text-align:right;">
-1.9
+1.4
 </td>
 </tr>
 <tr>
@@ -37997,7 +38695,24 @@ NA
 virginica
 </td>
 <td style="text-align:right;">
-5.1
+4.8
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+virginica
+</td>
+<td style="text-align:right;">
+6.1
 </td>
 <td style="text-align:right;">
 2.3
@@ -38014,44 +38729,10 @@ NA
 virginica
 </td>
 <td style="text-align:right;">
-5.4
+5.6
 </td>
 <td style="text-align:right;">
-2.1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:center;">
-NA
-</td>
-<td style="text-align:center;">
-virginica
-</td>
-<td style="text-align:right;">
-5.1
-</td>
-<td style="text-align:right;">
-2.0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:center;">
-NA
-</td>
-<td style="text-align:center;">
-virginica
-</td>
-<td style="text-align:right;">
-6.7
-</td>
-<td style="text-align:right;">
-2.2
+2.4
 </td>
 </tr>
 </tbody>
@@ -41969,7 +42650,7 @@ virginica
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 <table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-(#tab:summarise3_kable)iris data: summarised mean Sepal length without grouping
+(#tab:summarise3.kable)iris data: summarised mean Sepal length without grouping
 </caption>
 <thead>
 <tr>
@@ -41987,8 +42668,176 @@ mean_Sepal_length
 </tbody>
 </table>
 </div>
-
 </div>
+</div>
+<div id="exercise" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Exercise<a href="data-manipulation-using-dplyr.html#exercise" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now, it’s time for a mini exercise:</p>
+<ol style="list-style-type: decimal">
+<li>Install the package called <code>gapminder</code>. You will find a dataset called <em>gapminder</em>. For each continent, calculate the mean of <code>life expectancy at birth</code> for people whose data were collected after 2002 (not inclusive). The answer will look like below -</li>
+</ol>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:exercise1">Table 2.1: </span>gapminder data: summarised mean of life expectancy by continent
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+continent
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+mean_LE
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Oceania
+</td>
+<td style="text-align:center;">
+80.22975
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:center;">
+77.17460
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Americas
+</td>
+<td style="text-align:center;">
+73.01508
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:center;">
+69.98118
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:center;">
+54.06563
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>Do the same for each country (instead of continent) and print the top 10 countries by <code>life expectancy at birth</code>. The result will look like this -</li>
+</ol>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:exercise2">Table 2.2: </span>gapminder data: summarised mean of life expectancy of top 10 countries
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+country
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+mean_LE
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:center;">
+82.3015
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hong Kong, China
+</td>
+<td style="text-align:center;">
+81.8515
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Switzerland
+</td>
+<td style="text-align:center;">
+81.1605
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Iceland
+</td>
+<td style="text-align:center;">
+81.1285
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Australia
+</td>
+<td style="text-align:center;">
+80.8025
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sweden
+</td>
+<td style="text-align:center;">
+80.4620
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Italy
+</td>
+<td style="text-align:center;">
+80.3930
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Spain
+</td>
+<td style="text-align:center;">
+80.3605
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Israel
+</td>
+<td style="text-align:center;">
+80.2205
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Canada
+</td>
+<td style="text-align:center;">
+80.2115
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
 </div>
 </div>
             </section>

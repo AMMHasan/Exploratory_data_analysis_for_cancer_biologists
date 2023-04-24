@@ -150,6 +150,9 @@ p + geom_point(aes(colour=year, shape=factor(cyl)), size = 3) # inside aes(), af
 ```
 
 
+If you want to play with different shades of colours in your plots, This is a good [place](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette
+) to start. The default colour scheme is not colour-blind friendly. You can even find a colour-blind-friendly colour palette following this link.
+
 You can play with title and axis labels -
 
 ```{r geom_point4, fig.width = 5, fig.height=4, fig.align = 'center'}
@@ -307,25 +310,25 @@ ggplot(mpg, aes(class, hwy)) +
 ```
 
 
+## Plotting exercise
+
+Let's re-construct this plot. There is an interesting reason behind my backward approach. Mentioning the dataset and variables, I asked ChatGPT to write a code snippet, and it did something close to what I wanted. Now, I want you to start from the beginning. Here are some info that you will need -
+
+* You will need the `midwest` dataset that comes with the `ggplot2` package.
+
+* Using `geom_point()` verb, draw scatter plot using the variables `area` and `poptotal`.
+
+* Colour the points by `state`, and set the size of them by variable `popdensity`.
+
+* Use `geom_smooth()` verb to visualise the relationship between variables `area` and `poptotal` using *loess* method. Get rid of the confidence interval around the smooth line.
+
+* Adjust the x- and y-axis accordingly. 
+
+* Annotate the plot accordingly.
 
 
 
-### The rest of the exercise is a copy of the "Top 50 ggplot2 Visualizations - The Master List (With Full R Code)". 
-The link: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
-
-
-
-Correlation
-
-The following plots help to examine how well correlated two variables are.
-
-Scatterplot
-
-The most frequently used plot for data analysis is undoubtedly the scatterplot. Whenever you want to understand the nature of relationship between two variables, invariably the first choice is the scatterplot.
-
-It can be drawn using ```geom_point()```. Additionally, geom_smooth which draws a smoothing line (based on loess) by default, can be tweaked to draw the line of best fit by setting method='lm'.
-
-```{r practice, fig.width = 5, fig.height=4, fig.align = 'center'}
+```{r practice, fig.width = 5, fig.height=4, fig.align = 'center', echo=FALSE, message=F, warning=F}
 
 # install.packages("ggplot2")
 # load package and data

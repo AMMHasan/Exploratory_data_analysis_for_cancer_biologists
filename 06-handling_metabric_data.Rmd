@@ -1,6 +1,8 @@
 # Metabric data analysis
 
-Now it's our turn to apply the techniques that we have learned so far in this workshop. In this section, we will explore some datasets that were part of a study characterising the genomic mutations (SNVs and CNAs) and gene expression profiles for over 2000 primary breast tumours. In addition, a detailed clinical information can also be found for this study alongside the experimental data from [cBioPortal](https://www.cbioportal.org/study/summary?id=brca_metabric). The study was published under two prominent publications - 
+Now it's our turn to apply the techniques that we have learned so far in this workshop. In this section, we will explore some datasets that were part of a study characterising the genomic mutations (SNVs and CNAs) and gene expression profiles for over 2000 primary breast tumours. In addition, a detailed clinical information can also be found for this study alongside the experimental data from [cBioPortal](https://www.cbioportal.org/study/summary?id=brca_metabric). Alternatively, you can download only the required files from [Zenodo](https://zenodo.org/record/7860635#.ZEcBzezMKdY).
+
+The study was published under two prominent publications - 
 
 [Curtis et al., Nature 486:346-52, 2012](https://pubmed.ncbi.nlm.nih.gov/22522925/)
 

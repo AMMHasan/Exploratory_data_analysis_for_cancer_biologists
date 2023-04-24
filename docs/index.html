@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Plotting using ggplot2 | Exploratory data analysis for cancer biologists</title>
+  <title>Exploratory data analysis for cancer biologists</title>
   <meta name="description" content="This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using R (statistical) programming language in their MSc projects." />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Plotting using ggplot2 | Exploratory data analysis for cancer biologists" />
+  <meta property="og:title" content="Exploratory data analysis for cancer biologists" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using R (statistical) programming language in their MSc projects." />
   <meta name="github-repo" content="AMMHasan/Exploratory_data_analysis_for_cancer_biologists" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Plotting using ggplot2 | Exploratory data analysis for cancer biologists" />
+  <meta name="twitter:title" content="Exploratory data analysis for cancer biologists" />
   
   <meta name="twitter:description" content="This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using R (statistical) programming language in their MSc projects." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="data-manipulation-using-dplyr.html"/>
-<link rel="next" href="metabric-data-analysis.html"/>
+
+<link rel="next" href="introduction.html"/>
 <script src="assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -52,6 +52,8 @@
 <link href="assets/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="assets/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="assets/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="assets/kePrint-0.0.1/kePrint.js"></script>
+<link href="assets/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -188,262 +190,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="plotting-using-ggplot2" class="section level1 hasAnchor" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Plotting using <code>ggplot2</code><a href="plotting-using-ggplot2.html#plotting-using-ggplot2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="mini-intro-to-ggplot2" class="section level2 hasAnchor" number="3.1">
-<h2><span class="header-section-number">3.1</span> Mini intro to <code>ggplot2</code><a href="plotting-using-ggplot2.html#mini-intro-to-ggplot2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>To my opinion, the most elegant package for data visualisation in <em>R</em> is <code>ggplot2</code>. Here, <em>gg</em> stands for the <em>grammar of graphics</em>. Put aside what you have learnt so far on basic <em>R</em> plotting techniques, <code>ggplot2</code> defines the art of plotting in a whole new way. The learning curve may be steep, but once you learn it, you will fall in love with it (I promise). You provide the data, tell <code>ggplot2</code> which variables to map to the aesthetics, and tell the plot type you want draw. <code>ggplot2</code> will take care of the rest.</p>
+<div id="header">
+<h1 class="title">Exploratory data analysis for cancer biologists</h1>
+<p class="author"><em>A M Mahedi Hasan</em></p>
+<p class="date"><em>April 25, 2023</em></p>
 </div>
-<div id="installation" class="section level2 hasAnchor" number="3.2">
-<h2><span class="header-section-number">3.2</span> Installation<a href="plotting-using-ggplot2.html#installation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The easiest way to get <code>ggplot2</code> is to install the whole <code>tidyverse</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="plotting-using-ggplot2.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
-<p>Alternatively, install just <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="plotting-using-ggplot2.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
-<p>Or the the development version from GitHub:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="plotting-using-ggplot2.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
-<span id="cb3-2"><a href="plotting-using-ggplot2.html#cb3-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;tidyverse/ggplot2&quot;</span>)</span></code></pre></div>
-<p>And then, load it …</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="plotting-using-ggplot2.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
-</div>
-<div id="plotting-with-ggplot2" class="section level2 hasAnchor" number="3.3">
-<h2><span class="header-section-number">3.3</span> Plotting with ggplot2<a href="plotting-using-ggplot2.html#plotting-with-ggplot2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="difference-between-base-r-plot-and-ggplot2" class="section level3 hasAnchor" number="3.3.1">
-<h3><span class="header-section-number">3.3.1</span> Difference between base <em>R</em> plot and ggplot2<a href="plotting-using-ggplot2.html#difference-between-base-r-plot-and-ggplot2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In this chapter, I will be using the <code>mtcars</code> dataset for plotting different graphs. For refreshing your memory, let’s have a look at the dataset -</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="plotting-using-ggplot2.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars)</span></code></pre></div>
-<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
-## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="plotting-using-ggplot2.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mtcars)</span></code></pre></div>
-<pre><code>## &#39;data.frame&#39;:    32 obs. of  11 variables:
-##  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
-##  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
-##  $ disp: num  160 160 108 258 360 ...
-##  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
-##  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
-##  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
-##  $ qsec: num  16.5 17 18.6 19.4 17 ...
-##  $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
-##  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
-##  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
-##  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</code></pre>
-<p>Now, I will draw <em>scatter plot</em>, first using the base <em>R</em> <code>plot()</code> function, and then using <code>ggplot2</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="plotting-using-ggplot2.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>mtcars<span class="sc">$</span>mpg, <span class="at">y=</span>mtcars<span class="sc">$</span>wt)</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/base_R_vs_ggplot2_2-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="plotting-using-ggplot2.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mtcars, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>mpg,<span class="at">y=</span>wt)) <span class="sc">+</span> </span>
-<span id="cb10-2"><a href="plotting-using-ggplot2.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/base_R_vs_ggplot2_2-2.png" width="480" style="display: block; margin: auto;" />
-You can see the stark difference between them.</p>
-</div>
-<div id="general-parameters-for-ggplot" class="section level3 hasAnchor" number="3.3.2">
-<h3><span class="header-section-number">3.3.2</span> General parameters for ggplot()<a href="plotting-using-ggplot2.html#general-parameters-for-ggplot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>For plotting with <code>ggplot2</code>, you start with <code>ggplot()</code> function and you privide the data. You then put the parameters you need to plot, like - the aesthetic mapping using <code>mapping = aes()</code>. Then, you add on layers (like <code>geom_point()</code>), scale (like <code>scale_x_continuous()</code>), faceting specifications (like <code>facet_wrap()</code>), coordinate systems (like <code>coord_flip()</code>)</p>
-<p>In short, these are the elements that you might see in a block of graph using <code>ggplot()</code> function -</p>
-<ul>
-<li><p>data</p></li>
-<li><p>aesthetic mapping</p></li>
-<li><p>geometric objects</p></li>
-<li><p>statistical transformations</p></li>
-<li><p>scales</p></li>
-<li><p>coordinate systems</p></li>
-<li><p>position adjustments</p></li>
-<li><p>faceting</p></li>
-</ul>
-<p>You can specify different layers of the plot and combine using “+” operator. Now I will dive into different aspects of the <code>ggplot()</code> function -</p>
-<div id="aesthetic-mapping-using-aes" class="section level4 hasAnchor" number="3.3.2.1">
-<h4><span class="header-section-number">3.3.2.1</span> Aesthetic mapping using <code>aes()</code><a href="plotting-using-ggplot2.html#aesthetic-mapping-using-aes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Here <em>aesthetic</em> means something that you can see. It is mainly the mapping between a visual attribute and a variable. These are some important aesthetics -</p>
-<ul>
-<li><p>position (x,y)</p></li>
-<li><p>colour (basically the colour of the outer rim of the object)</p></li>
-<li><p>fill (the filling-colour/inside-colour of the object)</p></li>
-<li><p>shape (mainly of point)</p></li>
-<li><p>line type</p></li>
-<li><p>size etc</p></li>
-</ul>
-<p>You can read all about them on your RStudio help panel by typing -</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="plotting-using-ggplot2.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help.search</span>(<span class="st">&quot;geom_&quot;</span>, <span class="at">package =</span> <span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
-</div>
-<div id="geomatric-objects-geom_" class="section level4 hasAnchor" number="3.3.2.2">
-<h4><span class="header-section-number">3.3.2.2</span> Geomatric Objects `<code>geom_</code><a href="plotting-using-ggplot2.html#geomatric-objects-geom_" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>There are so many <code>geom</code> objects in <code>ggplot2</code>, like -</p>
-<ul>
-<li><p><code>geom_point()</code></p></li>
-<li><p><code>geom_lines()</code></p></li>
-<li><p><code>geom_boxplot()</code></p></li>
-</ul>
-<p>Again, you can find those <code>geom</code> objects by typing in -</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="plotting-using-ggplot2.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help.search</span>(<span class="st">&quot;geom_&quot;</span>, <span class="at">package =</span> <span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
-<p>Now time to check what I have just mentioned, but before that (as usual) let’s check the data that we are going to use. I will switch to another dataset, called <code>mpg</code>, from <em>R</em>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="plotting-using-ggplot2.html#cb13-1" aria-hidden="true" tabindex="-1"></a>?mpg</span></code></pre></div>
-<div id="scatter-plot-with-geom_point" class="section level5 hasAnchor" number="3.3.2.2.1">
-<h5><span class="header-section-number">3.3.2.2.1</span> scatter plot with geom_point()<a href="plotting-using-ggplot2.html#scatter-plot-with-geom_point" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>I will now draw a scatter plot using <em>highway miles per gallon</em> as a function of <em>engine displacement (in litres)</em> -</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="plotting-using-ggplot2.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span> </span>
-<span id="cb14-2"><a href="plotting-using-ggplot2.html#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point1-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>Interestingly, you can save the whole or part of the code snippet in a variable -</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="plotting-using-ggplot2.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># can be saved in a vector first, then print it. Like -</span></span>
-<span id="cb15-2"><a href="plotting-using-ggplot2.html#cb15-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
-<span id="cb15-3"><a href="plotting-using-ggplot2.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># now invoke it</span></span>
-<span id="cb15-4"><a href="plotting-using-ggplot2.html#cb15-4" aria-hidden="true" tabindex="-1"></a>p1</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point2-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="plotting-using-ggplot2.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or </span></span>
-<span id="cb16-2"><a href="plotting-using-ggplot2.html#cb16-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="co"># saved as a base plot variable. I will call p and add different layer on it.</span></span>
-<span id="cb16-3"><a href="plotting-using-ggplot2.html#cb16-3" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_point</span>() </span>
-<span id="cb16-4"><a href="plotting-using-ggplot2.html#cb16-4" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_line</span>()</span>
-<span id="cb16-5"><a href="plotting-using-ggplot2.html#cb16-5" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_smooth</span>()</span>
-<span id="cb16-6"><a href="plotting-using-ggplot2.html#cb16-6" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> p2 <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se =</span> F, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)</span>
-<span id="cb16-7"><a href="plotting-using-ggplot2.html#cb16-7" aria-hidden="true" tabindex="-1"></a>p5</span></code></pre></div>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point2-2.png" width="480" style="display: block; margin: auto;" /></p>
-<p>Now let’s play with colour and size -</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="plotting-using-ggplot2.html#cb18-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="co"># outside aes(), affects the same for all</span></span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point3-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="plotting-using-ggplot2.html#cb19-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>year, <span class="at">shape=</span><span class="fu">factor</span>(cyl)), <span class="at">size =</span> <span class="dv">3</span>) <span class="co"># inside aes(), affects accordingly</span></span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point3-2.png" width="480" style="display: block; margin: auto;" /></p>
-<p>If you want to play with different shades of colours in your plots, This is a good <a href="http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette">place</a> to start. The default colour scheme is not colour-blind friendly. You can even find a colour-blind-friendly colour palette following this link.</p>
-<p>You can play with title and axis labels -</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="plotting-using-ggplot2.html#cb20-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb20-2"><a href="plotting-using-ggplot2.html#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>year), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb20-3"><a href="plotting-using-ggplot2.html#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_text(aes(label=model)) + # may be not a good idea now.</span></span>
-<span id="cb20-4"><a href="plotting-using-ggplot2.html#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb20-5"><a href="plotting-using-ggplot2.html#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Fuel efficiency vs Engine displacement&quot;</span>,</span>
-<span id="cb20-6"><a href="plotting-using-ggplot2.html#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Fuel efficiency decreases with the engine size&quot;</span>,</span>
-<span id="cb20-7"><a href="plotting-using-ggplot2.html#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Two-seater is an exception&quot;</span>,</span>
-<span id="cb20-8"><a href="plotting-using-ggplot2.html#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Engine displacement (L)&quot;</span>,</span>
-<span id="cb20-9"><a href="plotting-using-ggplot2.html#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Highway fule economy (mpg)&quot;</span>,</span>
-<span id="cb20-10"><a href="plotting-using-ggplot2.html#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;Manufactrure year&quot;</span></span>
-<span id="cb20-11"><a href="plotting-using-ggplot2.html#cb20-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point4-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>If your datapoints are a bit tightly spaced, you can jitter a bit -</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="plotting-using-ggplot2.html#cb21-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb21-2"><a href="plotting-using-ggplot2.html#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>class), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">position =</span> <span class="st">&quot;jitter&quot;</span>) <span class="co"># introducing jitter here. For controlling the amount of movements, you can use geom_jitter()</span></span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_poin5-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>Let’s play with some scaling -</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="plotting-using-ggplot2.html#cb22-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb22-2"><a href="plotting-using-ggplot2.html#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>class), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb22-3"><a href="plotting-using-ggplot2.html#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">name =</span> <span class="st">&quot;x-axis label changed&quot;</span>, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="at">by=</span><span class="dv">5</span>),<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb22-4"><a href="plotting-using-ggplot2.html#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">&quot;reverse&quot;</span>)</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point6-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="plotting-using-ggplot2.html#cb23-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb23-2"><a href="plotting-using-ggplot2.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>class), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="plotting-using-ggplot2.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set1&quot;</span>) <span class="co"># scale_colour is a widely used one</span></span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point6-2.png" width="480" style="display: block; margin: auto;" /></p>
-<p>You can play with the positioning of the legend, too -</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="plotting-using-ggplot2.html#cb24-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb24-2"><a href="plotting-using-ggplot2.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>class), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb24-3"><a href="plotting-using-ggplot2.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;left&quot;</span>)</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point7-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="plotting-using-ggplot2.html#cb25-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb25-2"><a href="plotting-using-ggplot2.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>class), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb25-3"><a href="plotting-using-ggplot2.html#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) </span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/geom_point7-2.png" width="480" style="display: block; margin: auto;" /></p>
-</div>
-</div>
-<div id="coordinate-system" class="section level4 hasAnchor" number="3.3.2.3">
-<h4><span class="header-section-number">3.3.2.3</span> Coordinate system<a href="plotting-using-ggplot2.html#coordinate-system" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>I will discuss it with box polt later in this chapter.</p>
-</div>
-<div id="faceting" class="section level4 hasAnchor" number="3.3.2.4">
-<h4><span class="header-section-number">3.3.2.4</span> Faceting<a href="plotting-using-ggplot2.html#faceting" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>If you have too many data points, the idea of faceting is to sub-setting the plot by an appropriate variable -</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="plotting-using-ggplot2.html#cb26-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb26-2"><a href="plotting-using-ggplot2.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>class), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb26-3"><a href="plotting-using-ggplot2.html#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> class, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/faceting-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="plotting-using-ggplot2.html#cb27-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb27-2"><a href="plotting-using-ggplot2.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>class), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb27-3"><a href="plotting-using-ggplot2.html#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span> class) <span class="co"># if there were any blank plot, won&#39;t be plotted here</span></span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/faceting-2.png" width="480" style="display: block; margin: auto;" /></p>
-</div>
-<div id="theme" class="section level4 hasAnchor" number="3.3.2.5">
-<h4><span class="header-section-number">3.3.2.5</span> Theme<a href="plotting-using-ggplot2.html#theme" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>There are different themes to play with -</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="plotting-using-ggplot2.html#cb28-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb28-2"><a href="plotting-using-ggplot2.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>class), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb28-3"><a href="plotting-using-ggplot2.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/theme-1.png" width="480" style="display: block; margin: auto;" /></p>
-</div>
-<div id="other-geometric-objects" class="section level4 hasAnchor" number="3.3.2.6">
-<h4><span class="header-section-number">3.3.2.6</span> Other geometric objects<a href="plotting-using-ggplot2.html#other-geometric-objects" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div id="bar-plot-and-position-adjustment" class="section level5 hasAnchor" number="3.3.2.6.1">
-<h5><span class="header-section-number">3.3.2.6.1</span> Bar plot and position adjustment<a href="plotting-using-ggplot2.html#bar-plot-and-position-adjustment" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>By default, the bar plot comes as stacked. If you fill it by a variable that is not used to plot the bars, you can see what I mean. However, for playing with the bar plot, I will be using another dataset called ‘diamonds’ that comes with <em>R</em>.</p>
-<p>To begin with -</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="plotting-using-ggplot2.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb29-2"><a href="plotting-using-ggplot2.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>cut))</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/bar_plot1-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="plotting-using-ggplot2.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb30-2"><a href="plotting-using-ggplot2.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>cut))</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/bar_plot2-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>But -</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="plotting-using-ggplot2.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb31-2"><a href="plotting-using-ggplot2.html#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>clarity))</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/bar_plot3-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>The position is adjusted by the position argument which takes in three options - “identity”, “fill”, and “dodge”</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="plotting-using-ggplot2.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb32-2"><a href="plotting-using-ggplot2.html#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>clarity), <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>)</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/bar_plot4-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>Here, each object falls exactly where it should be in the context of the plot and seems to be overlapped. It can be a little better if you use fill = NA or use alpha value</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="plotting-using-ggplot2.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb33-2"><a href="plotting-using-ggplot2.html#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>clarity), <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/bar_plot5-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="plotting-using-ggplot2.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb34-2"><a href="plotting-using-ggplot2.html#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">colour=</span>clarity), <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">fill=</span><span class="cn">NA</span>) <span class="co"># mind the change of colour and fill</span></span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/bar_plot5-2.png" width="480" style="display: block; margin: auto;" /></p>
-<p>Position fill catches up all the space vertically for each bar and displays as fraction of the values</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="plotting-using-ggplot2.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb35-2"><a href="plotting-using-ggplot2.html#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>clarity), <span class="at">position =</span> <span class="st">&quot;fill&quot;</span>)</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/bar_plot6-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>But what we usually mean by the bar plots is the next -</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="plotting-using-ggplot2.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb36-2"><a href="plotting-using-ggplot2.html#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>clarity), <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>)</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/bar_plot7-1.png" width="480" style="display: block; margin: auto;" /></p>
-</div>
-<div id="boxplot" class="section level5 hasAnchor" number="3.3.2.6.2">
-<h5><span class="header-section-number">3.3.2.6.2</span> Boxplot<a href="plotting-using-ggplot2.html#boxplot" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>Box plot is very convenient to see the distribution of your data and compare side by side the distributions of different variables in your data -</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="plotting-using-ggplot2.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(class, hwy)) <span class="sc">+</span></span>
-<span id="cb37-2"><a href="plotting-using-ggplot2.html#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb37-3"><a href="plotting-using-ggplot2.html#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/boxplot-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="plotting-using-ggplot2.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(class, hwy)) <span class="sc">+</span></span>
-<span id="cb38-2"><a href="plotting-using-ggplot2.html#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb38-3"><a href="plotting-using-ggplot2.html#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>()</span></code></pre></div>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/boxplot-2.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="plotting-using-ggplot2.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Please don&#39;t plot boxplot in this way in real-life.</span></span></code></pre></div>
-</div>
-</div>
-</div>
-</div>
-<div id="plotting-exercise" class="section level2 hasAnchor" number="3.4">
-<h2><span class="header-section-number">3.4</span> Plotting exercise<a href="plotting-using-ggplot2.html#plotting-exercise" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let’s re-construct this plot. There is an interesting reason behind my backward approach. Mentioning the dataset and variables, I asked ChatGPT to write a code snippet, and it did something close to what I wanted. Now, I want you to start from the beginning. Here are some info that you will need -</p>
-<ul>
-<li><p>You will need the <code>midwest</code> dataset that comes with the <code>ggplot2</code> package.</p></li>
-<li><p>Using <code>geom_point()</code> verb, draw scatter plot using the variables <code>area</code> and <code>poptotal</code>.</p></li>
-<li><p>Colour the points by <code>state</code>, and set the size of them by variable <code>popdensity</code>.</p></li>
-<li><p>Use <code>geom_smooth()</code> verb to visualise the relationship between variables <code>area</code> and <code>poptotal</code> using <em>loess</em> method. Get rid of the confidence interval around the smooth line.</p></li>
-<li><p>Adjust the x- and y-axis accordingly.</p></li>
-<li><p>Annotate the plot accordingly.</p></li>
-</ul>
-<p><img src="Exploratory_data_analysis_for_cancer_biologists_files/figure-html/practice-1.png" width="480" style="display: block; margin: auto;" /></p>
+<div id="preface" class="section level1 unnumbered hasAnchor">
+<h1>Preface<a href="preface.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>After failing twice in my driving practical test, I took some time off from driving lessons. The reason was, partly, financial. It was also the beginning of the shorter days of winter and I was a bit worried of taking the exam during those cold days when the roads in Edinburgh became a bit tricky to drive. In the next summer, when I tried to contact my driving instructor again, to my surprise, I came to know that he had changed his profession. Well, my wife still blames me in secret as it was not the first time that my driving instructors had stopped training people or changed his career (though my first instructor took a break due to some family responsibilities).</p>
+<p>So, I went to the third driving instructor, Bill. He was in his late 70s, I guess, and initially I had hard time understand what he was saying. You may think that it’s not ideal at all for a driving lesson. But interestingly enough, it worked out in the end and I got my driving license this time. Anyway, Bill used to be an engineer and after his retirement, he started his second career as a driving instructor. On the first day, Bill told me to forget everything I had learned so far on driving. I was a bit shocked indeed with his condescending approach, but when he started the lesson it felt like he was teaching me the grammar of driving - how to control the clutch, how to read the mind the driver of an oncoming vehicle etc.</p>
+<p>By now, you may have started to wander, what does Bill have anything to do with you or this workshop? Bear with me. Each time I think about two R packages, namely <code>dpylr</code> and <code>ggplot2</code>, they remind me of Bill. In this workshop on exploratory data analysis using <em>R</em>, we will learn the grammar of data manipulation and grammar of graphics to draw fancy plots. What you have learned in the previous workshop, was not even the tip of an iceberg of plotting with <em>R</em>. Those function that we used were a bit rigid and you have less control over your plots. But here, with the package <code>ggplot2</code>, we will shape up the plots as we wish (at least, to a greater degree). We will draw layer upon layer to incorporate so many aspects of the data in a single plot. And for the data handling, we will use <code>dplyr</code> package. We will add layer of functions, as we progress, to build our data structure for downstream analysis. And as a whole, we will try to tell a story with our plots during the workshop.</p>
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="data-manipulation-using-dplyr.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="metabric-data-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+
+<a href="introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="assets/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +239,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/AMMHasan/Exploratory_data_analysis_for_cancer_biologists/edit/master/05-plotting.Rmd",
+"link": "https://github.com/AMMHasan/Exploratory_data_analysis_for_cancer_biologists/edit/master/02-Preface.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -482,7 +247,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/AMMHasan/Exploratory_data_analysis_for_cancer_biologists/blob/master/05-plotting.Rmd",
+"link": "https://github.com/AMMHasan/Exploratory_data_analysis_for_cancer_biologists/blob/master/02-Preface.Rmd",
 "text": null
 },
 "download": null,

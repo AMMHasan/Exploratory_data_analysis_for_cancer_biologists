@@ -1,2 +1,1 @@
-**It is still in it's development phase**
-This workshop the second workshop designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using *R* (statistical-) programming language in their MSc projects.
+This is the last workshop of the series (for this year) designed for the Cancer MSc Students in UCL Cancer Institute to gain some confidence on using *R* (statistical-) programming language in their upcoming projects.
